@@ -3,6 +3,7 @@
 /**
  * Reverse Solver — generates 2-3 valid configuration candidates.
  * P1-04: Reverse solver on economic/balanced/reinforced profiles.
+ * Lock: backend/src/solver/, backend/src/validation/
  */
 
 const { randomUUID } = require('crypto');
