@@ -24,4 +24,5 @@ jobs:
         run: python3 scripts/swarmctl.py smoke
       - name: Skip note
         if: env.SWARMCTL_ENABLED != '1'
-        run: echo "Skipping swarmctl smoke: repos/packages/agent-os/src is not present in this checkout."
+        run: |
+          echo "Skipping swarmctl smoke: repos/packages/agent-os/src is not present in this checkout."
