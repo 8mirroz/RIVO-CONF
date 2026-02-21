@@ -1,4 +1,20 @@
 [
-  {"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"},
-  {"article": "100002", "qty": 2, "uom": "pcs", "comment": "Corner"}
+  {
+    "sku": "100001.1",
+    "name": "Монтажный профиль",
+    "qty": 3.7,
+    "unit": "m",
+    "meta": {
+      "cutLengthsMm": [1200, 1200, 1300]
+    }
+  },
+  {
+    "sku": "100002",
+    "name": "Угловой узел",
+    "qty": 2,
+    "unit": "pcs",
+    "meta": {
+      "angle": 90
+    }
+  }
 ]

@@ -1,7 +1,70 @@
 {
   "stateId": "3b1f7c77-3b0c-4d6f-9e2a-2c4dbf516f2f",
-  "dimensions": {"width": 1200, "height": 2500, "depth": 200},
-  "graph": {"rootNode": "root-1", "edges": [{"from": "root-1", "to": "child-1", "type": "inline"}]},
-  "bom": [{"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"}],
-  "versionTag": {"catalogVersion": "1.0.0", "rulesVersion": "1.0.0", "pricingVersion": "1.0.0", "assetsVersion": "1.0.0"}
+  "dimensions": {
+    "width": 1200,
+    "height": 2500,
+    "depth": 200
+  },
+  "selectedOptions": {
+    "mountingType": "floor-wall",
+    "equipmentModules": ["toilet"]
+  },
+  "derivedValues": {
+    "safetyFactor": 1.24
+  },
+  "structureGraph": {
+    "id": "sg-001",
+    "nodes": [
+      {"id": "n1", "kind": "profile", "article": "100001.1"},
+      {"id": "n2", "kind": "connector", "article": "100002"}
+    ],
+    "members": [
+      {"id": "m1", "from": "n1", "to": "n2", "type": "inline"}
+    ],
+    "supports": [
+      {"id": "s1", "kind": "floor"}
+    ],
+    "fasteners": [
+      {"id": "f1", "sku": "100004"}
+    ],
+    "metadata": {
+      "source": "reverse-solver"
+    }
+  },
+  "bom": [
+    {
+      "sku": "100001.1",
+      "name": "Монтажный профиль",
+      "qty": 3.7,
+      "unit": "m"
+    }
+  ],
+  "calculatedPrice": {
+    "currency": "RUB",
+    "subtotal": 14500,
+    "discounts": 500,
+    "taxes": 2800,
+    "total": 16800,
+    "lines": [
+      {
+        "sku": "100001.1",
+        "title": "Монтажный профиль",
+        "qty": 3.7,
+        "unitPrice": 1200,
+        "lineTotal": 4440
+      }
+    ]
+  },
+  "validationState": [
+    {
+      "ruleId": "RULE_MIN_HEIGHT",
+      "status": "pass"
+    }
+  ],
+  "versionTag": {
+    "catalogVersion": "1.0.0",
+    "rulesVersion": "1.0.0",
+    "pricingVersion": "1.0.0",
+    "assetsVersion": "1.0.0"
+  }
 }

@@ -1,18 +1,71 @@
 openapi: 3.1.0
 info:
   title: RIVO Configurator API
-  version: "1.0.0"
-  description: "End-to-end API for RIVO Configurator, validating states, calculating CPQ, and generating DXF/IFC/Passport exports."
+  version: "1.1.0"
+  description: |
+    Contract-normalized API for generation, validation, CPQ, and exports.
+    Canonical paths use `/configuration/*` and `/export/*`.
+    Legacy aliases (`/configurations/*`, `/exports/*`) are preserved as deprecated for backward compatibility.
+  contact:
+    name: RIVO API Support
+    email: api@rivo.example
+    url: https://rivo.example/support
+  license:
+    name: MIT
 
 servers:
   - url: /api/v1
     description: Core API v1
 
+tags:
+  - name: Solutions
+    description: Configuration solution generation
+  - name: Configurations
+    description: Configuration validation
+  - name: CPQ
+    description: Pricing and BOM calculation
+  - name: Exports
+    description: Export formats (PDF, DXF, IFC, RIVO)
+
 paths:
   /solutions/generate:
     post:
-      summary: "Generate a configuration solution."
-      operationId: generateSolution
+      tags:
+        - Solutions
+      summary: Generate one or more valid configuration solutions.
+      description: Accepts canonical requirements payload or legacy snapshot payload.
+      operationId: generateSolutionsV11
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/GenerateSolutionsRequest'
+                - $ref: '#/components/schemas/ConfigurationSnapshot'
+      responses:
+        "200":
+          description: Candidate solutions (canonical) or single snapshot (legacy behavior).
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/GenerateSolutionsResponse'
+                  - $ref: '#/components/schemas/ConfigurationSnapshot'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /configuration/validate:
+    post:
+      tags:
+        - Configurations
+      summary: Validate configuration state (canonical path).
+      description: Returns validation result envelope with structured explainability payload.
+      operationId: validateConfigurationV11
       requestBody:
         required: true
         content:
@@ -21,13 +74,13 @@ paths:
               $ref: '#/components/schemas/ConfigurationSnapshot'
       responses:
         "200":
-          description: "Returns the configuration snapshot."
+          description: Validation result envelope.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConfigurationSnapshot'
+                $ref: '#/components/schemas/ValidationResponseEnvelope'
         "400":
-          description: "Bad Request"
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -35,8 +88,12 @@ paths:
 
   /configurations/validate:
     post:
-      summary: "Validate a given configuration state."
-      operationId: validateConfiguration
+      tags:
+        - Configurations
+      summary: Validate configuration state (legacy alias).
+      description: Legacy endpoint for configuration validation. Use /configuration/validate instead.
+      deprecated: true
+      operationId: validateConfigurationsLegacy
       requestBody:
         required: true
         content:
@@ -45,7 +102,7 @@ paths:
               $ref: '#/components/schemas/ConfigurationSnapshot'
       responses:
         "200":
-          description: "Returns validation results."
+          description: Legacy validation result list.
           content:
             application/json:
               schema:
@@ -53,7 +110,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ValidationResultItem'
         "400":
-          description: "Bad Request"
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -61,8 +118,11 @@ paths:
 
   /cpq/calculate:
     post:
-      summary: "Calculate Prices and BOM."
-      operationId: calculateCpq
+      tags:
+        - CPQ
+      summary: Calculate prices and BOM.
+      description: Calculate price quote and bill of materials for a validated configuration.
+      operationId: calculateCpqV11
       requestBody:
         required: true
         content:
@@ -71,13 +131,41 @@ paths:
               $ref: '#/components/schemas/ConfigurationSnapshot'
       responses:
         "200":
-          description: "Returns complete CPQ Quote including BOM."
+          description: Price quote response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PriceQuote'
         "400":
-          description: "Bad Request"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /export/pdf:
+    post:
+      tags:
+        - Exports
+      summary: Export technical passport PDF (canonical path).
+      description: Generate and download technical passport in PDF format.
+      operationId: exportPdfV11
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: PDF binary stream.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -85,8 +173,12 @@ paths:
 
   /exports/pdf:
     post:
-      summary: "Export Technical Passport PDF."
-      operationId: exportPdf
+      tags:
+        - Exports
+      summary: Export technical passport PDF (legacy alias).
+      description: Legacy endpoint for PDF export. Use /export/pdf instead.
+      deprecated: true
+      operationId: exportPdfLegacy
       requestBody:
         required: true
         content:
@@ -95,14 +187,42 @@ paths:
               $ref: '#/components/schemas/RivoExportConfig'
       responses:
         "200":
-          description: "Returns PDF binary standard."
+          description: PDF binary stream.
           content:
             application/pdf:
               schema:
                 type: string
                 format: binary
         "400":
-          description: "Bad Request"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /export/dxf:
+    post:
+      tags:
+        - Exports
+      summary: Export DXF drawing (canonical path).
+      description: Generate and download DXF structural drawing.
+      operationId: exportDxfV11
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: DXF binary stream.
+          content:
+            application/dxf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -110,8 +230,12 @@ paths:
 
   /exports/dxf:
     post:
-      summary: "Export DXF Drawing."
-      operationId: exportDxf
+      tags:
+        - Exports
+      summary: Export DXF drawing (legacy alias).
+      description: Legacy endpoint for DXF export. Use /export/dxf instead.
+      deprecated: true
+      operationId: exportDxfLegacy
       requestBody:
         required: true
         content:
@@ -120,14 +244,42 @@ paths:
               $ref: '#/components/schemas/RivoExportConfig'
       responses:
         "200":
-          description: "Returns DXF binary stream."
+          description: DXF binary stream.
           content:
             application/dxf:
               schema:
                 type: string
                 format: binary
         "400":
-          description: "Bad Request"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /export/ifc:
+    post:
+      tags:
+        - Exports
+      summary: Export IFC4 BIM model (canonical path).
+      description: Generate and download IFC4 BIM model in STEP format.
+      operationId: exportIfcV11
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: IFC STEP format stream.
+          content:
+            application/step:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -135,8 +287,12 @@ paths:
 
   /exports/ifc:
     post:
-      summary: "Export IFC4 BIM Model."
-      operationId: exportIfc
+      tags:
+        - Exports
+      summary: Export IFC4 BIM model (legacy alias).
+      description: Legacy endpoint for IFC export. Use /export/ifc instead.
+      deprecated: true
+      operationId: exportIfcLegacy
       requestBody:
         required: true
         content:
@@ -145,23 +301,26 @@ paths:
               $ref: '#/components/schemas/RivoExportConfig'
       responses:
         "200":
-          description: "Returns IFC STEP format stream."
+          description: IFC STEP format stream.
           content:
             application/step:
               schema:
                 type: string
                 format: binary
         "400":
-          description: "Bad Request"
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorEnvelope'
 
-  /exports/rivo:
+  /export/rivo:
     post:
-      summary: "Generate canonical .rivo.json from ConfigurationSnapshot."
-      operationId: exportRivo
+      tags:
+        - Exports
+      summary: Generate canonical .rivo.json (canonical path).
+      description: Export configuration in canonical RIVO format for interchange.
+      operationId: exportRivoV11
       requestBody:
         required: true
         content:
@@ -170,13 +329,41 @@ paths:
               $ref: '#/components/schemas/ConfigurationSnapshot'
       responses:
         "200":
-          description: "Returns canonical RivoExportConfig JSON."
+          description: Canonical RivoExportConfig JSON.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RivoExportConfig'
         "400":
-          description: "Bad Request"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /exports/rivo:
+    post:
+      tags:
+        - Exports
+      summary: Generate canonical .rivo.json (legacy alias).
+      description: Legacy endpoint for RIVO export. Use /export/rivo instead.
+      deprecated: true
+      operationId: exportRivoLegacy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationSnapshot'
+      responses:
+        "200":
+          description: Canonical RivoExportConfig JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RivoExportConfig'
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -184,6 +371,92 @@ paths:
 
 components:
   schemas:
+    Requirements:
+      type: object
+      required:
+        - height
+        - width
+        - depth
+        - load
+        - mountingType
+      properties:
+        height:
+          type: number
+        width:
+          type: number
+        depth:
+          type: number
+        load:
+          type: number
+        mountingType:
+          type: string
+        equipmentModules:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    GenerateSolutionsRequest:
+      type: object
+      required:
+        - requirements
+      properties:
+        requirements:
+          $ref: '#/components/schemas/Requirements'
+      additionalProperties: false
+    SolutionCard:
+      type: object
+      required:
+        - configurationId
+        - type
+        - structureGraph
+        - price
+        - bom
+      properties:
+        configurationId:
+          type: string
+        type:
+          type: string
+          enum:
+            - economic
+            - balanced
+            - reinforced
+        structureGraph:
+          $ref: '#/components/schemas/StructureGraph'
+        price:
+          $ref: '#/components/schemas/PriceQuote'
+        bom:
+          type: array
+          items:
+            $ref: '#/components/schemas/BomItem'
+        validationState:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationResultItem'
+      additionalProperties: false
+    GenerateSolutionsResponse:
+      type: object
+      required:
+        - solutions
+      properties:
+        solutions:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/SolutionCard'
+      additionalProperties: false
+    ValidationResponseEnvelope:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationResultItem'
+        valid:
+          type: boolean
+      additionalProperties: false
     ConfigurationSnapshot:
       $ref: './schemas/configuration-snapshot.schema.json'
     ValidationResultItem:

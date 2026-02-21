@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rivo.example/schema/configuration-snapshot.schema.json",
   "title": "ConfigurationSnapshot",
+  "description": "Configuration snapshot with versioned tags and backward-compatible graph aliases.",
   "type": "object",
   "required": ["stateId", "dimensions"],
   "properties": {
@@ -16,13 +17,30 @@
       },
       "additionalProperties": false
     },
+    "selectedOptions": {"type": "object"},
+    "derivedValues": {"type": "object"},
+    "structureGraph": {"$ref": "./structure-graph.schema.json"},
     "graph": {"$ref": "./structure-graph.schema.json"},
     "bom": {
       "type": "array",
       "items": {"$ref": "./bom-item.schema.json"}
     },
+    "calculatedPrice": {"$ref": "./price-quote.schema.json"},
+    "validationState": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {"$ref": "./validation-result-item.schema.json"}
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
     "versionTag": {
       "type": "object",
+      "required": ["catalogVersion", "rulesVersion", "pricingVersion", "assetsVersion"],
       "properties": {
         "catalogVersion": {"type": "string"},
         "rulesVersion": {"type": "string"},
