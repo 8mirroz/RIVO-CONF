@@ -1,16 +1,10 @@
 name: contracts-validate
 on:
   pull_request:
-    paths:
-      - 'contracts/**'
-      - 'scripts/quality/**'
-  push:
-    paths:
-      - 'contracts/**'
-      - 'scripts/quality/**'
 
 jobs:
-  validate:
+  contracts-validate:
+    name: contracts-validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,11 +1,10 @@
 name: openapi-compat
 on:
   pull_request:
-    paths:
-      - 'contracts/openapi.v1.yaml'
 
 jobs:
-  diff:
+  openapi-compat:
+    name: openapi-compat
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

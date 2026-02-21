@@ -1,19 +1,14 @@
 name: openapi-validate
 on:
   pull_request:
-    paths:
-      - 'contracts/openapi.v1.yaml'
-      - 'contracts/schemas/**'
-  push:
-    paths:
-      - 'contracts/openapi.v1.yaml'
-      - 'contracts/schemas/**'
 
 jobs:
-  lint:
+  openapi-validate:
+    name: openapi-validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: stoplightio/spectral-action@v1
+      - uses: actions/setup-node@v4
         with:
-          file_glob: 'contracts/openapi.v1.yaml'
+          node-version: '20'
+      - run: npx --yes @stoplight/spectral-cli lint --ruleset .github/spectral.yaml --fail-severity error contracts/openapi.v1.yaml

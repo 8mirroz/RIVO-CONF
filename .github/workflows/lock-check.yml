@@ -1,9 +1,15 @@
 name: lock-check
 on:
   pull_request:
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  repository-projects: read
 
 jobs:
-  lock:
+  lock-check:
+    name: lock-check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,17 +37,34 @@ jobs:
             });
 
             const changedFiles = files.map(f => f.filename);
+            const body = pr.body || '';
 
-            // Optional: read lock info from GitHub Project fields if configured
             const projectId = process.env.LOCK_PROJECT_ID;
             let lockPaths = [];
-            let lockOwner = null;
+            let lockOwner = '';
+            let lockType = '';
+            let lockExpiry = '';
+            let lockSource = 'body';
+
+            const parseBodyField = (fieldName) => {
+              const match = body.match(new RegExp(`^\\s*[-*]?\\s*${fieldName}\\s*:\\s*(.+)$`, 'im'));
+              return match ? match[1].trim() : '';
+            };
+
+            const issueMatch = body.match(/^\s*[-*]?\s*Issue\s*:\s*#(\d+)\s*$/im);
+            if (!issueMatch) {
+              core.setFailed('Missing `Issue: #<number>` in PR body');
+              return;
+            }
+            const issueNumber = parseInt(issueMatch[1], 10);
+
+            lockPaths = parseBodyField('lock_paths').split(',').map(s => s.trim()).filter(Boolean);
+            lockOwner = parseBodyField('lock_owner');
+            lockType = parseBodyField('lock_type').toLowerCase();
+            lockExpiry = parseBodyField('lock_expiry');
+
             if (projectId) {
-              // Expect PR body to reference an issue: "Issue: #123"
-              const body = pr.body || '';
-              const issueMatch = body.match(/Issue:\s*#(\d+)/i);
-              if (issueMatch) {
-                const issueNumber = parseInt(issueMatch[1], 10);
+              try {
                 const query = `
                   query($owner:String!, $repo:String!, $number:Int!) {
                     repository(owner:$owner, name:$repo) {
@@ -49,11 +72,17 @@ jobs:
                         projectItems(first:20) {
                           nodes {
                             project { id }
-                            fieldValues(first:20) {
-                              nodes {
-                                ... on ProjectV2ItemFieldTextValue { text field { name } }
-                                ... on ProjectV2ItemFieldSingleSelectValue { name field { name } }
-                              }
+                            lockPaths: fieldValueByName(name:"Lock Paths") {
+                              ... on ProjectV2ItemFieldTextValue { text }
+                            }
+                            lockOwner: fieldValueByName(name:"Lock Owner") {
+                              ... on ProjectV2ItemFieldTextValue { text }
+                            }
+                            lockType: fieldValueByName(name:"Lock Type") {
+                              ... on ProjectV2ItemFieldSingleSelectValue { name }
+                            }
+                            lockExpiry: fieldValueByName(name:"Lock Expiry") {
+                              ... on ProjectV2ItemFieldDateValue { date }
                             }
                           }
                         }
@@ -65,50 +94,67 @@ jobs:
                 const items = res.repository.issue.projectItems.nodes || [];
                 const item = items.find(i => i.project.id === projectId);
                 if (item) {
-                  const fields = item.fieldValues.nodes || [];
-                  const fieldMap = new Map();
-                  for (const f of fields) {
-                    fieldMap.set(f.field.name, f.text || f.name);
-                  }
-                  if (fieldMap.has('Lock Paths')) {
-                    lockPaths = String(fieldMap.get('Lock Paths')).split(',').map(s => s.trim()).filter(Boolean);
-                  }
-                  if (fieldMap.has('Lock Owner')) {
-                    lockOwner = String(fieldMap.get('Lock Owner')).trim();
-                  }
+                  lockSource = 'project';
+                  lockPaths = String(item.lockPaths?.text || '')
+                    .split(',')
+                    .map(s => s.trim())
+                    .filter(Boolean);
+                  lockOwner = String(item.lockOwner?.text || '').trim();
+                  lockType = String(item.lockType?.name || '').trim().toLowerCase();
+                  lockExpiry = String(item.lockExpiry?.date || '').trim();
+                } else {
+                  core.notice(`Issue #${issueNumber} not found in configured project; using PR body lock fields`);
                 }
+              } catch (err) {
+                core.notice(`Project lookup unavailable; using PR body lock fields (${String(err)})`);
               }
             }
 
-            // Fallback to PR body lock_paths
-            if (lockPaths.length === 0) {
-              const body = pr.body || '';
-              const lockLine = body.split('\n').find(l => l.toLowerCase().startsWith('lock_paths:'));
-              if (!lockLine) {
-                core.setFailed('Missing lock_paths in PR body');
-                return;
-              }
-              lockPaths = lockLine.split(':')[1].split(',').map(s => s.trim()).filter(Boolean);
-              if (!lockPaths.length) {
-                core.setFailed('Empty lock_paths in PR body');
-                return;
-              }
+            if (!lockPaths.length) {
+              core.setFailed('Missing or empty lock_paths');
+              return;
             }
-
-            // Optional lock owner enforcement
-            if (lockOwner && lockOwner !== pr.user.login) {
+            if (!lockOwner) {
+              core.setFailed('Missing lock_owner');
+              return;
+            }
+            if (!lockType) {
+              core.setFailed('Missing lock_type');
+              return;
+            }
+            if (!['file', 'dir', 'contract'].includes(lockType)) {
+              core.setFailed(`Invalid lock_type: ${lockType}`);
+              return;
+            }
+            if (!lockExpiry || !/^\d{4}-\d{2}-\d{2}$/.test(lockExpiry)) {
+              core.setFailed('Missing or invalid lock_expiry (expected YYYY-MM-DD)');
+              return;
+            }
+            if (lockOwner !== pr.user.login) {
               core.setFailed(`Lock Owner mismatch. Expected ${lockOwner}, got ${pr.user.login}`);
               return;
             }
+            const today = new Date().toISOString().slice(0, 10);
+            if (lockExpiry < today) {
+              core.setFailed(`Lock expired on ${lockExpiry}`);
+              return;
+            }
+
+            const coveredByLock = (file, lockPath) => {
+              const p = String(lockPath || '').trim();
+              if (!p) return false;
+              if (p.endsWith('/')) return file.startsWith(p);
+              return file === p || file.startsWith(`${p}/`);
+            };
 
             const missing = [];
             for (const file of changedFiles) {
-              const ok = lockPaths.some(p => file === p || file.startsWith(p));
+              const ok = lockPaths.some(p => coveredByLock(file, p));
               if (!ok) missing.push(file);
             }
 
             if (missing.length) {
               core.setFailed(`Files not covered by lock_paths: ${missing.join(', ')}`);
             } else {
-              core.notice('Lock check passed');
+              core.notice(`Lock check passed (${lockSource})`);
             }
