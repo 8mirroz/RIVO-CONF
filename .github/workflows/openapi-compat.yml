@@ -1,8 +1,7 @@
 name: openapi-compat
 on:
   pull_request:
-    paths:
-      - 'contracts/openapi.v1.yaml'
+  push:
 
 jobs:
   diff:

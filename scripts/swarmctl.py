@@ -12,7 +12,18 @@ from typing import Any, Iterable
 from uuid import uuid4
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-SRC_DIR = Path("/Users/user/antigravity-core/repos/packages/agent-os/src")
+REPO_SRC_DIR = SCRIPT_DIR.parent / "repos/packages/agent-os/src"
+SRC_CANDIDATES = []
+if os.getenv("AGENT_OS_SRC"):
+    SRC_CANDIDATES.append(Path(str(os.getenv("AGENT_OS_SRC"))))
+SRC_CANDIDATES.append(REPO_SRC_DIR)
+SRC_CANDIDATES.append(Path("/Users/user/antigravity-core/repos/packages/agent-os/src"))
+
+SRC_DIR = next((p for p in SRC_CANDIDATES if p.exists()), None)
+if SRC_DIR is None:
+    raise SystemExit(
+        "agent-os src not found. Set AGENT_OS_SRC or ensure repos/packages/agent-os/src exists."
+    )
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 

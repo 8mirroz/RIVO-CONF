@@ -1,13 +1,7 @@
 name: contracts-validate
 on:
   pull_request:
-    paths:
-      - 'contracts/**'
-      - 'scripts/quality/**'
   push:
-    paths:
-      - 'contracts/**'
-      - 'scripts/quality/**'
 
 jobs:
   validate:
