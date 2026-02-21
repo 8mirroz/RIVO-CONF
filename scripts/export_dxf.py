@@ -1,71 +1,127 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
 import json
 import sys
+from pathlib import Path
+from typing import Any
 
-def generate_dxf_stub(rivo_config: dict, output_path: str):
+
+def _derive_output_path(config_path: Path) -> Path:
+    source = str(config_path)
+    if source.endswith(".rivo.json"):
+        return Path(source.removesuffix(".rivo.json") + ".dxf")
+    return config_path.with_suffix(".dxf")
+
+
+def _as_float(value: Any, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _point_xy(value: Any) -> tuple[float, float]:
+    point = value if isinstance(value, dict) else {}
+    return (_as_float(point.get("x", 0.0)), _as_float(point.get("y", 0.0)))
+
+
+def _layer_for_article(article: str) -> str:
+    return "RIVO_PROFILE" if str(article).startswith("100001") else "RIVO_CONNECTORS"
+
+
+def _sorted_elements(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    items = [item for item in value if isinstance(item, dict)]
+    return sorted(items, key=lambda e: (str(e.get("id", "")), str(e.get("article", ""))))
+
+
+def generate_dxf_stub(rivo_config: dict[str, Any], output_path: Path) -> Path:
     """
-    Generates a primitive structured text output or actual DXF via ezdxf 
-    representing the Structural DXF Spec for RIVO Fix.
+    Generate DXF with ezdxf, or a deterministic text preview when ezdxf is absent.
     """
-    elements = rivo_config.get("elements", [])
-    
+    if not isinstance(rivo_config, dict):
+        raise ValueError("rivo_config must be a dictionary")
+
+    elements = _sorted_elements(rivo_config.get("elements"))
+
     try:
         import ezdxf
-        doc = ezdxf.new("R2010")
-        doc.header["$INSUNITS"] = 4  # Millimeters
-        
-        # Setup layers
-        layers = [
-            ("RIVO_PROFILE", 7), ("RIVO_CONNECTORS", 3), 
-            ("RIVO_SUPPORTS", 2), ("RIVO_EQUIPMENT", 4),
-            ("RIVO_AXES", 1), ("RIVO_DIMS", 5), ("RIVO_TEXT", 7)
+    except ImportError:
+        lines = [
+            "DXF MAPPING PREVIEW",
+            "LAYERS: RIVO_PROFILE,RIVO_CONNECTORS,RIVO_SUPPORTS,RIVO_EQUIPMENT,RIVO_AXES,RIVO_DIMS,RIVO_TEXT",
         ]
-        for name, color in layers:
+        for elem in elements:
+            art = str(elem.get("article", ""))
+            layer = _layer_for_article(art)
+            geom = elem.get("geom", {}) if isinstance(elem.get("geom"), dict) else {}
+            lines.append(f"LAYER={layer};ART={art};GEOM_TYPE={geom.get('type', '')}")
+
+        preview_path = output_path.with_suffix(output_path.suffix + ".txt")
+        preview_path.write_text("\n".join(lines), encoding="utf-8")
+        return preview_path
+
+    doc = ezdxf.new("R2010")
+    doc.header["$INSUNITS"] = 4  # millimeters
+    for name, color in (
+        ("RIVO_PROFILE", 7),
+        ("RIVO_CONNECTORS", 3),
+        ("RIVO_SUPPORTS", 2),
+        ("RIVO_EQUIPMENT", 4),
+        ("RIVO_AXES", 1),
+        ("RIVO_DIMS", 5),
+        ("RIVO_TEXT", 7),
+    ):
+        if name not in doc.layers:
             doc.layers.add(name=name, color=color)
 
-        msp = doc.modelspace()
+    msp = doc.modelspace()
+    for elem in elements:
+        article = str(elem.get("article", ""))
+        layer = _layer_for_article(article)
+        geom = elem.get("geom", {}) if isinstance(elem.get("geom"), dict) else {}
+        geom_type = str(geom.get("type", "")).lower()
 
-        for elem in elements:
-            art = elem.get("article", "")
-            # Basic mapping logic based on layer
-            layer = "RIVO_PROFILE" if art.startswith("100001") else "RIVO_CONNECTORS"
-            
-            geom = elem.get("geom", {})
-            if geom.get("type") == "segment":
-                start = geom.get("start", {"x":0,"y":0,"z":0})
-                end = geom.get("end", {"x":0,"y":0,"z":0})
-                msp.add_line((start["x"], start["y"]), (end["x"], end["y"]), dxfattribs={"layer": layer})
-            elif geom.get("type") == "point":
-                pos = geom.get("point", {"x":0,"y":0,"z":0})
-                msp.add_text(f"ART:{art}", dxfattribs={"layer": "RIVO_TEXT"}).set_placement((pos["x"], pos["y"]))
+        if geom_type == "segment":
+            start = _point_xy(geom.get("start"))
+            end = _point_xy(geom.get("end"))
+            msp.add_line(start, end, dxfattribs={"layer": layer})
+        elif geom_type == "point":
+            point = _point_xy(geom.get("point"))
+            msp.add_text(
+                f"ART:{article}",
+                dxfattribs={"layer": "RIVO_TEXT", "insert": point, "height": 2.5},
+            )
 
-        doc.saveas(output_path)
-        print(f"Real DXF generated at {output_path} (ezdxf)")
-    except ImportError:
-        # Fallback to pseudo-DXF mapping debug format
-        print("ezdxf not installed. Generating DXF mapping preview text.")
-        lines = []
-        lines.append("DXF MAPPING PREVIEW (Layers: RIVO_PROFILE, RIVO_CONNECTORS, RIVO_SUPPORTS, RIVO_EQUIPMENT)")
-        for elem in elements:
-            art = elem.get("article", "")
-            layer = "RIVO_PROFILE" if str(art).startswith("100") else "RIVO_EQUIPMENT"
-            geom = elem.get("geom", {})
-            lines.append(f"LAYER: {layer} | ART: {art} | GEOM_TYPE: {geom.get('type')}")
-        
-        with open(output_path + ".txt", 'w', encoding='utf-8') as f:
-            f.write("\n".join(lines))
-        print(f"Fallback DXF text preview generated at {output_path}.txt")
+    doc.saveas(output_path)
+    return output_path
+
+
+def _parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Generate DXF (or preview) from Rivo export JSON.")
+    parser.add_argument("config", help="Path to .rivo.json (or compatible) input file.")
+    parser.add_argument("-o", "--output", help="Output DXF path. Default: <input>.dxf")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parse_args(argv or sys.argv[1:])
+    config_path = Path(args.config)
+    output_path = Path(args.output) if args.output else _derive_output_path(config_path)
+
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        written = generate_dxf_stub(config, output_path)
+    except Exception as exc:  # noqa: BLE001
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    print(written)
+    return 0
+
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        config_path = sys.argv[1]
-    else:
-        config_path = "../research/RIVO_Deliverables_Passport_DXF_IFC_JSON/05_sample_project.rivo.json"
-    
-    try:
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config = json.load(f)
-        output_file = config_path.replace(".rivo.json", ".dxf")
-        generate_dxf_stub(config, output_file)
-    except Exception as e:
-        print(f"Error processing {config_path}: {e}")
+    raise SystemExit(main())
