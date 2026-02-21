@@ -1,7 +1,52 @@
 {
   "stateId": "3b1f7c77-3b0c-4d6f-9e2a-2c4dbf516f2f",
+  "selectedOptions": {
+    "mountingType": "floor-wall",
+    "equipmentModules": ["module-a"]
+  },
+  "derivedValues": {
+    "totalWeight": 35.5,
+    "loadCapacity": 1200
+  },
+  "calculatedPrice": {
+    "quoteId": "quote-001",
+    "currency": "RUB",
+    "subtotal": 10000,
+    "discounts": 0,
+    "taxes": 0,
+    "total": 10000,
+    "lines": [
+      {
+        "sku": "100001.1",
+        "title": "Profile 40x40",
+        "qty": 2000,
+        "unitPrice": 5,
+        "lineTotal": 10000
+      }
+    ]
+  },
+  "bom": [
+    {
+      "sku": "100001.1",
+      "name": "Profile 40x40",
+      "qty": 2000,
+      "unit": "mm",
+      "comment": "Profile length"
+    }
+  ],
+  "validationState": [
+    {
+      "ruleId": "dimension-check",
+      "status": "pass",
+      "message": "Dimensions valid"
+    }
+  ],
+  "versionTag": {
+    "catalogVersion": "2026.02.01",
+    "rulesVersion": "2026.02.15",
+    "pricingVersion": "2026.02.20",
+    "assetsVersion": "2026.02.01"
+  },
   "dimensions": {"width": 1200, "height": 2500, "depth": 200},
-  "graph": {"rootNode": "root-1", "edges": [{"from": "root-1", "to": "child-1", "type": "inline"}]},
-  "bom": [{"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"}],
-  "versionTag": {"catalogVersion": "1.0.0", "rulesVersion": "1.0.0", "pricingVersion": "1.0.0", "assetsVersion": "1.0.0"}
+  "graph": {"rootNode": "root-1", "edges": [{"from": "root-1", "to": "child-1", "type": "inline"}]}
 }

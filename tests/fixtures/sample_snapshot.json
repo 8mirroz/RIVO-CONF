@@ -1,0 +1,22 @@
+{
+  "stateId": "replay-test-001",
+  "dimensions": {
+    "width": 2000,
+    "height": 2500,
+    "depth": 400
+  },
+  "load": 800,
+  "mountingType": "wall",
+  "equipmentModules": ["piping"],
+  "selectedProfile": "profile_30x30",
+  "bom": [
+    {"article": "100001", "qty": 5000, "uom": "mm", "comment": "Profile total length"},
+    {"article": "100002", "qty": 4, "uom": "pcs", "comment": "Corner connectors"}
+  ],
+  "versionTags": {
+    "catalog": "v1.0.0",
+    "rules": "v1.0.0",
+    "pricing": "v1.0.0",
+    "assets": "v1.0.0"
+  }
+}
