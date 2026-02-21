@@ -1,0 +1,18 @@
+{
+    "snapshotVersion": "1.0.0",
+    "dependencies": {
+        "catalogVersion": "1.0.0",
+        "rulesVersion": "1.0.0",
+        "pricingVersion": "1.0.0",
+        "assetsVersion": "1.0.0"
+    },
+    "compatibility": {
+        "minBackendApiVersion": "v1",
+        "minViewerVersion": "v1.0.0"
+    },
+    "schemaRefs": {
+        "ConfigurationSnapshot": "https://api.rivo.example/schemas/configuration-snapshot.schema.json",
+        "PriceQuote": "https://api.rivo.example/schemas/price-quote.schema.json",
+        "StructureGraph": "https://api.rivo.example/schemas/structure-graph.schema.json"
+    }
+}

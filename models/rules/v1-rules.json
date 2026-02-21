@@ -1,0 +1,51 @@
+{
+    "version": "1.0.0",
+    "hardRules": [
+        {
+            "id": "hr1",
+            "description": "If load > 400kg, profile MUST be >= 40x40",
+            "condition": {
+                "field": "load",
+                "operator": ">",
+                "value": 400
+            },
+            "action": {
+                "type": "requireProfile",
+                "value": "profile_40x40"
+            },
+            "explain": "Heavy loads (>400kg) require a reinforced 40x40 profile."
+        }
+    ],
+    "softRules": [
+        {
+            "id": "sr1",
+            "description": "Warn if width > 2000mm",
+            "condition": {
+                "field": "width",
+                "operator": ">",
+                "value": 2000
+            },
+            "action": {
+                "type": "warn"
+            },
+            "explain": "Widths exceeding 2000mm may require additional intermediate supports that aren't automatically added."
+        }
+    ],
+    "autoRules": [
+        {
+            "id": "ar1",
+            "description": "If toilet included, depth must be at least 300mm",
+            "condition": {
+                "field": "equipmentModules",
+                "operator": "contains",
+                "value": "toilet"
+            },
+            "action": {
+                "type": "setMinOverride",
+                "field": "depth",
+                "value": 300
+            },
+            "explain": "Mounting a toilet module requires a minimum depth of 300mm for standard plumbing."
+        }
+    ]
+}

@@ -1,0 +1,64 @@
+{
+    "version": "1.0.0",
+    "attributes": [
+        {
+            "id": "width",
+            "type": "number",
+            "unit": "mm",
+            "validation": {
+                "min": 200,
+                "max": 3000,
+                "step": 10
+            }
+        },
+        {
+            "id": "height",
+            "type": "number",
+            "unit": "mm",
+            "validation": {
+                "min": 500,
+                "max": 4000,
+                "step": 10
+            }
+        },
+        {
+            "id": "depth",
+            "type": "number",
+            "unit": "mm",
+            "validation": {
+                "min": 100,
+                "max": 1000,
+                "step": 10
+            }
+        },
+        {
+            "id": "load",
+            "type": "number",
+            "unit": "kg",
+            "validation": {
+                "min": 0,
+                "max": 1500
+            }
+        },
+        {
+            "id": "mountingType",
+            "type": "enum",
+            "options": [
+                "floor-wall",
+                "wall",
+                "floor",
+                "ceiling"
+            ]
+        },
+        {
+            "id": "equipmentModules",
+            "type": "enumArray",
+            "options": [
+                "toilet",
+                "bidet",
+                "piping",
+                "sink"
+            ]
+        }
+    ]
+}
