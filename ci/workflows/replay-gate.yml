@@ -1,0 +1,38 @@
+name: Replay Gate
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main ]
+
+jobs:
+  replay-determinism:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install test dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-json-report
+
+    - name: Run replay determinism tests
+      run: |
+        python scripts/quality/run_replay_tests.py --verbose
+
+    - name: Upload test artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: replay-test-results
+        path: |
+          tests/replay/
+          tests/fixtures/
+        retention-days: 7
