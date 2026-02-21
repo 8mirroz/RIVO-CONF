@@ -11,4 +11,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python3 scripts/swarmctl.py smoke
+      - name: Preflight agent-os path
+        run: |
+          if [ -d "repos/packages/agent-os/src" ]; then
+            echo "SWARMCTL_ENABLED=1" >> "$GITHUB_ENV"
+            echo "AGENT_OS_SRC=$PWD/repos/packages/agent-os/src" >> "$GITHUB_ENV"
+          else
+            echo "SWARMCTL_ENABLED=0" >> "$GITHUB_ENV"
+          fi
+      - name: Run swarmctl smoke
+        if: env.SWARMCTL_ENABLED == '1'
+        run: python3 scripts/swarmctl.py smoke
+      - name: Skip note
+        if: env.SWARMCTL_ENABLED != '1'
+        run: echo "Skipping swarmctl smoke: repos/packages/agent-os/src is not present in this checkout."

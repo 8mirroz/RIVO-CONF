@@ -83,12 +83,12 @@ jobs:
             // Fallback to PR body lock_paths
             if (lockPaths.length === 0) {
               const body = pr.body || '';
-              const lockLine = body.split('\n').find(l => l.toLowerCase().startsWith('lock_paths:'));
-              if (!lockLine) {
+              const lockMatch = body.match(/^\s*[-*]?\s*lock_paths\s*:\s*(.+)$/im);
+              if (!lockMatch) {
                 core.setFailed('Missing lock_paths in PR body');
                 return;
               }
-              lockPaths = lockLine.split(':')[1].split(',').map(s => s.trim()).filter(Boolean);
+              lockPaths = lockMatch[1].split(',').map(s => s.trim()).filter(Boolean);
               if (!lockPaths.length) {
                 core.setFailed('Empty lock_paths in PR body');
                 return;

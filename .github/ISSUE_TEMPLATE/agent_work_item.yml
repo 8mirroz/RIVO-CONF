@@ -1,0 +1,104 @@
+name: Agent Work Item
+description: Standard task for multi-agent execution with mandatory lock fields.
+title: "[TASK] "
+labels:
+  - task
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Concise task description and expected outcome.
+      placeholder: Implement/adjust ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task_type
+    attributes:
+      label: Task Type
+      description: Routing class.
+      options:
+        - T1
+        - T2
+        - T3
+        - T4
+        - T5
+        - T6
+        - T7
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity
+      description: Routing complexity.
+      options:
+        - C1
+        - C2
+        - C3
+        - C4
+        - C5
+    validations:
+      required: true
+
+  - type: input
+    id: lock_paths
+    attributes:
+      label: Lock Paths
+      description: Comma-separated files/dirs allowed for this task.
+      placeholder: .github/,contracts/openapi.v1.yaml,scripts/swarmctl.py
+    validations:
+      required: true
+
+  - type: input
+    id: lock_owner
+    attributes:
+      label: Lock Owner
+      description: GitHub login of the owning agent/operator.
+      placeholder: 8mirroz
+    validations:
+      required: true
+
+  - type: dropdown
+    id: lock_type
+    attributes:
+      label: Lock Type
+      description: Scope of lock.
+      options:
+        - file
+        - dir
+        - contract
+    validations:
+      required: true
+
+  - type: input
+    id: lock_expiry
+    attributes:
+      label: Lock Expiry
+      description: ISO-8601 date (YYYY-MM-DD).
+      placeholder: 2026-02-28
+    validations:
+      required: true
+
+  - type: dropdown
+    id: contracts_changed
+    attributes:
+      label: Contracts Changed
+      options:
+        - "no"
+        - "yes"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      options:
+        - low
+        - medium
+        - high
+    validations:
+      required: true
