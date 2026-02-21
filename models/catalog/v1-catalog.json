@@ -1,0 +1,154 @@
+{
+    "$schema": "https://rivo.example.com/schemas/catalog-v1",
+    "version": "1.0.0",
+    "description": "RIVO v1 product catalog: profiles, nodes, fasteners",
+    "profiles": [
+        {
+            "id": "profile_30x30",
+            "article": "RIVO-P-30x30",
+            "label": "Профиль 30×30 мм",
+            "section_mm": [
+                30,
+                30
+            ],
+            "material": "aluminium_6060_T5",
+            "max_span_mm": 1200,
+            "max_load_per_m_kg": 25,
+            "price_per_m_rub": 450,
+            "uom": "mm",
+            "compatibleNodes": [
+                "node_t",
+                "node_corner",
+                "node_cross"
+            ],
+            "tags": [
+                "structural",
+                "standard"
+            ]
+        },
+        {
+            "id": "profile_40x40",
+            "article": "RIVO-P-40x40",
+            "label": "Профиль 40×40 мм (усиленный)",
+            "section_mm": [
+                40,
+                40
+            ],
+            "material": "aluminium_6061_T6",
+            "max_span_mm": 2000,
+            "max_load_per_m_kg": 50,
+            "price_per_m_rub": 680,
+            "uom": "mm",
+            "compatibleNodes": [
+                "node_t_heavy",
+                "node_corner_heavy",
+                "node_cross_heavy"
+            ],
+            "tags": [
+                "structural",
+                "reinforced",
+                "heavy-load"
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "id": "node_t",
+            "article": "RIVO-N-T30",
+            "label": "Угловой узел T 30 мм",
+            "profileSize": "30x30",
+            "type": "T-connector",
+            "price_rub": 85,
+            "tags": [
+                "node",
+                "standard"
+            ]
+        },
+        {
+            "id": "node_corner",
+            "article": "RIVO-N-C30",
+            "label": "Внешний угол 30 мм",
+            "profileSize": "30x30",
+            "type": "corner",
+            "price_rub": 95,
+            "tags": [
+                "node",
+                "standard"
+            ]
+        },
+        {
+            "id": "node_cross",
+            "article": "RIVO-N-X30",
+            "label": "Крест 30 мм",
+            "profileSize": "30x30",
+            "type": "cross",
+            "price_rub": 110,
+            "tags": [
+                "node",
+                "standard"
+            ]
+        },
+        {
+            "id": "node_t_heavy",
+            "article": "RIVO-N-T40",
+            "label": "Угловой узел T 40 мм (усиленный)",
+            "profileSize": "40x40",
+            "type": "T-connector",
+            "price_rub": 145,
+            "tags": [
+                "node",
+                "reinforced"
+            ]
+        },
+        {
+            "id": "node_corner_heavy",
+            "article": "RIVO-N-C40",
+            "label": "Внешний угол 40 мм (усиленный)",
+            "profileSize": "40x40",
+            "type": "corner",
+            "price_rub": 165,
+            "tags": [
+                "node",
+                "reinforced"
+            ]
+        },
+        {
+            "id": "node_cross_heavy",
+            "article": "RIVO-N-X40",
+            "label": "Крест 40 мм (усиленный)",
+            "profileSize": "40x40",
+            "type": "cross",
+            "price_rub": 195,
+            "tags": [
+                "node",
+                "reinforced"
+            ]
+        }
+    ],
+    "fasteners": [
+        {
+            "id": "fastener_m6",
+            "article": "RIVO-F-M6x20",
+            "label": "Болт M6×20",
+            "size": "M6",
+            "length_mm": 20,
+            "price_rub": 12,
+            "tags": [
+                "fastener",
+                "standard"
+            ]
+        },
+        {
+            "id": "fastener_m8",
+            "article": "RIVO-F-M8x25",
+            "label": "Болт M8×25 (усиленный)",
+            "size": "M8",
+            "length_mm": 25,
+            "price_rub": 18,
+            "tags": [
+                "fastener",
+                "reinforced"
+            ]
+        }
+    ]
+}

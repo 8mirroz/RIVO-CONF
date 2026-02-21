@@ -1,0 +1,36 @@
+{
+    "$schema": "https://rivo.example.com/schemas/versioning-v1",
+    "version": "1.0.0",
+    "description": "RIVO v1 version manifest and compatibility matrix",
+    "current": {
+        "catalog": "1.0.0",
+        "rules": "1.0.0",
+        "pricing": "1.0.0",
+        "assets": "1.0.0"
+    },
+    "compatibility": {
+        "catalog@1.0.0": {
+            "rules": [
+                "1.0.0"
+            ],
+            "pricing": [
+                "1.0.0"
+            ],
+            "assets": [
+                "1.0.0"
+            ]
+        }
+    },
+    "history": [
+        {
+            "catalogVersion": "1.0.0",
+            "rulesVersion": "1.0.0",
+            "pricingVersion": "1.0.0",
+            "assetsVersion": "1.0.0",
+            "releaseDate": "2026-02-21",
+            "changeLog": "Initial v1 production models - profiles 30x30 and 40x40, basic HARD/AUTO/SOFT rules, standard fasteners and nodes."
+        }
+    ],
+    "deprecations": [],
+    "breakingChanges": []
+}

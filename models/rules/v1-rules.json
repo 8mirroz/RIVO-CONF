@@ -1,0 +1,158 @@
+{
+    "$schema": "https://rivo.example.com/schemas/rules-v1",
+    "version": "1.0.0",
+    "description": "RIVO v1 constraint rules: HARD, AUTO, SOFT",
+    "hard": [
+        {
+            "id": "hr1",
+            "label": "Тяжёлая нагрузка → обязателен профиль 40×40",
+            "priority": 1,
+            "when": {
+                "field": "load",
+                "operator": ">",
+                "value": 400
+            },
+            "action": {
+                "type": "requireProfile",
+                "value": "profile_40x40"
+            },
+            "explain": "При нагрузке > 400 кг необходим усиленный профиль 40×40 для обеспечения несущей способности.",
+            "suggestedFails": [
+                {
+                    "code": "select_profile_40x40",
+                    "message": "Выберите профиль profile_40x40"
+                }
+            ]
+        },
+        {
+            "id": "hr2",
+            "label": "Ширина 30×30 не превышает 1200 мм без промежуточной опоры",
+            "priority": 2,
+            "when": {
+                "and": [
+                    {
+                        "field": "selectedProfile",
+                        "operator": "==",
+                        "value": "profile_30x30"
+                    },
+                    {
+                        "field": "width",
+                        "operator": ">",
+                        "value": 1200
+                    }
+                ]
+            },
+            "action": {
+                "type": "requireIntermediateSupport"
+            },
+            "explain": "Пролёт профиля 30×30 > 1200 мм без промежуточной опоры снижает несущую способность ниже нормы.",
+            "suggestedFixes": [
+                {
+                    "code": "add_intermediate_support",
+                    "message": "Добавьте промежуточную опору"
+                },
+                {
+                    "code": "upgrade_to_profile_40x40",
+                    "message": "Перейдите на профиль 40×40"
+                }
+            ]
+        },
+        {
+            "id": "hr3",
+            "label": "Высота > 2500 мм → обязательны горизонтальные распорки",
+            "priority": 3,
+            "when": {
+                "field": "height",
+                "operator": ">",
+                "value": 2500
+            },
+            "action": {
+                "type": "requireHorizontalBracing"
+            },
+            "explain": "Высота конструкции > 2500 мм требует горизонтальных распорок для устойчивости.",
+            "suggestedFixes": [
+                {
+                    "code": "add_horizontal_bracing",
+                    "message": "Добавьте горизонтальные распорки на уровне 1200 мм"
+                }
+            ]
+        }
+    ],
+    "auto": [
+        {
+            "id": "ar1",
+            "label": "Унитаз → минимальная глубина 300 мм",
+            "when": {
+                "field": "equipmentModules",
+                "operator": "contains",
+                "value": "toilet"
+            },
+            "action": {
+                "type": "setMinOverride",
+                "field": "depth",
+                "value": 300
+            },
+            "explain": "Модуль унитаза требует минимальной глубины 300 мм для прокладки инсталляционных труб."
+        },
+        {
+            "id": "ar2",
+            "label": "Душевая → минимальная глубина 200 мм",
+            "when": {
+                "field": "equipmentModules",
+                "operator": "contains",
+                "value": "shower"
+            },
+            "action": {
+                "type": "setMinOverride",
+                "field": "depth",
+                "value": 200
+            },
+            "explain": "Душевая кабина требует минимальной глубины 200 мм для монтажа поддона и трапа."
+        },
+        {
+            "id": "ar3",
+            "label": "Монтаж потолок → профиль upgradeToHeavy при load > 150",
+            "when": {
+                "and": [
+                    {
+                        "field": "mountingType",
+                        "operator": "==",
+                        "value": "ceiling"
+                    },
+                    {
+                        "field": "load",
+                        "operator": ">",
+                        "value": 150
+                    }
+                ]
+            },
+            "action": {
+                "type": "upgradeProfile",
+                "value": "profile_40x40"
+            },
+            "explain": "Потолочный монтаж при нагрузке > 150 кг требует усиленного профиля."
+        }
+    ],
+    "soft": [
+        {
+            "id": "sr1",
+            "label": "Предупреждение: ширина > 2000 мм может потребовать дополнительных опор",
+            "when": {
+                "field": "width",
+                "operator": ">",
+                "value": 2000
+            },
+            "explain": "Ширина > 2000 мм не является критичной нагрузочной ошибкой, но требует проверки на прогиб."
+        },
+        {
+            "id": "sr2",
+            "label": "Предупреждение: стиральная машина без укреплённого крепления",
+            "when": {
+                "field": "equipmentModules",
+                "operator": "contains",
+                "value": "washing_machine"
+            },
+            "explain": "Стиральная машина создаёт вибрационные нагрузки. Рекомендуется антивибрационный крепёж."
+        }
+    ]
+}

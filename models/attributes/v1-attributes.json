@@ -1,0 +1,74 @@
+{
+    "$schema": "https://rivo.example.com/schemas/attributes-v1",
+    "version": "1.0.0",
+    "description": "RIVO v1 engineering attribute definitions for modular frame configurator",
+    "dimensions": {
+        "width": {
+            "type": "number",
+            "unit": "mm",
+            "min": 200,
+            "max": 3000,
+            "step": 10,
+            "label": "Ширина конструкции",
+            "description": "Ширина несущего каркаса по осям профилей"
+        },
+        "height": {
+            "type": "number",
+            "unit": "mm",
+            "min": 500,
+            "max": 4000,
+            "step": 10,
+            "label": "Высота конструкции",
+            "description": "Общая высота каркаса"
+        },
+        "depth": {
+            "type": "number",
+            "unit": "mm",
+            "min": 100,
+            "max": 1000,
+            "step": 10,
+            "label": "Глубина конструкции",
+            "description": "Глубина несущего каркаса по осям профилей"
+        }
+    },
+    "structural": {
+        "load": {
+            "type": "number",
+            "unit": "kg",
+            "min": 0,
+            "max": 1500,
+            "label": "Расчётная нагрузка",
+            "description": "Суммарная эксплуатационная нагрузка на каркас"
+        },
+        "mountingType": {
+            "type": "enum",
+            "values": [
+                "floor-wall",
+                "wall",
+                "floor",
+                "ceiling"
+            ],
+            "label": "Тип монтажа",
+            "description": "Способ крепления конструкции"
+        }
+    },
+    "equipment": {
+        "equipmentModules": {
+            "type": "array",
+            "items": {
+                "type": "enum",
+                "values": [
+                    "toilet",
+                    "bidet",
+                    "piping",
+                    "sink",
+                    "shower",
+                    "bath",
+                    "washing_machine"
+                ]
+            },
+            "label": "Модули оборудования",
+            "description": "Перечень сантехнических и санитарных модулей"
+        }
+    }
+}
