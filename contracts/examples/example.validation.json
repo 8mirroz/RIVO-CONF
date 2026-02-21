@@ -8,6 +8,25 @@
     "ruleId": "RULE_MAX_LOAD",
     "status": "warning",
     "message": "Load close to limit",
-    "explanation": {"title": "High load", "message": "Close to max", "why": ["Load > 90% capacity"]}
+    "affected": {
+      "kind": "configuration",
+      "ids": ["load"]
+    },
+    "explanation": {
+      "title": "High load",
+      "message": "Configured load is close to limit",
+      "why": ["Load > 90% capacity"]
+    },
+    "suggestedFixes": [
+      {
+        "code": "reinforce_profile",
+        "message": "Switch to reinforced profile set"
+      }
+    ]
+  },
+  {
+    "ruleId": "RULE_DEPTH_TOILET",
+    "status": "auto_corrected",
+    "message": "Depth auto-corrected to satisfy toilet module constraints"
   }
 ]

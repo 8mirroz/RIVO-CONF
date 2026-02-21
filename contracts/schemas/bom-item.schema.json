@@ -2,13 +2,22 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rivo.example/schema/bom-item.schema.json",
   "title": "BomItem",
+  "description": "Canonical BOM item with backward-compatible legacy aliases.",
   "type": "object",
-  "required": ["article", "qty", "uom"],
   "properties": {
+    "sku": {"type": "string"},
+    "name": {"type": "string"},
+    "qty": {"type": "number", "minimum": 0},
+    "unit": {"type": "string", "enum": ["pcs", "m", "set"]},
+    "meta": {"type": "object"},
+
     "article": {"type": "string"},
-    "qty": {"type": "number"},
-    "uom": {"type": "string", "enum": ["pcs", "mm"]},
+    "uom": {"type": "string", "enum": ["pcs", "mm", "m", "set"]},
     "comment": {"type": "string"}
   },
+  "anyOf": [
+    {"required": ["sku", "name", "qty", "unit"]},
+    {"required": ["article", "qty", "uom"]}
+  ],
   "additionalProperties": false
 }

@@ -6,7 +6,10 @@
   "required": ["ruleId", "status"],
   "properties": {
     "ruleId": {"type": "string"},
-    "status": {"type": "string", "enum": ["pass", "warning", "error", "auto_corrected"]},
+    "status": {
+      "type": "string",
+      "enum": ["pass", "fail", "warning", "auto_corrected", "error"]
+    },
     "message": {"type": "string"},
     "affected": {
       "type": "object",

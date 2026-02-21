@@ -2,9 +2,65 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rivo.example/schema/structure-graph.schema.json",
   "title": "StructureGraph",
+  "description": "Canonical structure graph with legacy graph compatibility.",
   "type": "object",
-  "required": ["rootNode", "edges"],
   "properties": {
+    "id": {"type": "string"},
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {"type": "string"},
+          "kind": {"type": "string"},
+          "article": {"type": "string"},
+          "geom": {"type": "object"},
+          "transform": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "from", "to"],
+        "properties": {
+          "id": {"type": "string"},
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "type": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "supports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {"type": "string"},
+          "kind": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "fasteners": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {"type": "string"},
+          "sku": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "metadata": {"type": "object"},
+
     "rootNode": {"type": "string"},
     "edges": {
       "type": "array",
@@ -20,5 +76,9 @@
       }
     }
   },
+  "anyOf": [
+    {"required": ["id", "nodes", "members", "supports", "fasteners"]},
+    {"required": ["rootNode", "edges"]}
+  ],
   "additionalProperties": false
 }

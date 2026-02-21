@@ -2,16 +2,40 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rivo.example/schema/price-quote.schema.json",
   "title": "PriceQuote",
+  "description": "Canonical quote shape with legacy compatibility.",
   "type": "object",
-  "required": ["quoteId", "currency", "totalPrice", "bom"],
   "properties": {
+    "currency": {"type": "string", "enum": ["RUB", "USD", "EUR"], "default": "RUB"},
+    "subtotal": {"type": "number", "minimum": 0},
+    "discounts": {"type": "number", "minimum": 0},
+    "taxes": {"type": "number", "minimum": 0},
+    "total": {"type": "number", "minimum": 0},
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sku", "title", "qty", "unitPrice", "lineTotal"],
+        "properties": {
+          "sku": {"type": "string"},
+          "title": {"type": "string"},
+          "qty": {"type": "number", "minimum": 0},
+          "unitPrice": {"type": "number", "minimum": 0},
+          "lineTotal": {"type": "number", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+
     "quoteId": {"type": "string"},
-    "currency": {"type": "string", "default": "RUB"},
-    "totalPrice": {"type": "number"},
+    "totalPrice": {"type": "number", "minimum": 0},
     "bom": {
       "type": "array",
       "items": {"$ref": "./bom-item.schema.json"}
     }
   },
+  "anyOf": [
+    {"required": ["currency", "subtotal", "discounts", "taxes", "total", "lines"]},
+    {"required": ["quoteId", "currency", "totalPrice", "bom"]}
+  ],
   "additionalProperties": false
 }
