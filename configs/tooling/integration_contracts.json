@@ -1,0 +1,116 @@
+{
+  "version": "2026-02-16",
+  "contracts": {
+    "ModelRouter": {
+      "input": {
+        "task_type": "string",
+        "complexity": "string",
+        "token_budget": "int",
+        "cost_budget": "float",
+        "preferred_models": "string[]"
+      },
+      "output": {
+        "primary_model": "string",
+        "fallback_chain": "string[]",
+        "max_input_tokens": "int",
+        "max_output_tokens": "int",
+        "route_reason": "string"
+      },
+      "errors": ["ROUTE_NOT_FOUND", "BUDGET_EXCEEDED", "PROVIDER_UNAVAILABLE"],
+      "timeout_seconds": 1.5,
+      "retry": "0 (router), 1 provider probe"
+    },
+    "Agent": {
+      "input": {
+        "run_id": "string",
+        "objective": "string",
+        "plan_steps": "string[]",
+        "route_decision": "object"
+      },
+      "output": {
+        "status": "string",
+        "diff_summary": "string",
+        "test_report": "object",
+        "artifacts": "string[]",
+        "next_action": "string"
+      },
+      "errors": ["PLAN_INVALID", "EXECUTION_FAILED", "VERIFICATION_FAILED"],
+      "timeout_seconds": 300,
+      "retry": "1 (transient only)"
+    },
+    "Tool": {
+      "input": {
+        "tool_name": "string",
+        "args": "string[]",
+        "mode": "read|write",
+        "correlation_id": "string"
+      },
+      "output": {
+        "status": "ok|error",
+        "stdout": "string",
+        "stderr": "string",
+        "artifacts": "string[]",
+        "exit_code": "int"
+      },
+      "errors": ["TOOL_NOT_FOUND", "TIMEOUT", "NON_ZERO_EXIT", "PERMISSION_DENIED"],
+      "timeout_seconds": {
+        "default": 60,
+        "tests": 240
+      },
+      "retry": "1 for read-only, 0 for write"
+    },
+    "Retriever": {
+      "input": {
+        "query": "string",
+        "sources": "string[]",
+        "max_chunks": "int",
+        "freshness": "string"
+      },
+      "output": {
+        "chunks": "object[]",
+        "citations": "string[]",
+        "retrieval_ms": "int"
+      },
+      "errors": ["SOURCE_UNAVAILABLE", "EMPTY_RESULT", "TIMEOUT"],
+      "timeout_seconds": 10,
+      "retry": "1"
+    },
+    "MemoryStore": {
+      "input": {
+        "op": "read|write|search",
+        "key": "string",
+        "payload": "object"
+      },
+      "output": {
+        "result": "object",
+        "memory_ids": "string[]",
+        "confidence": "float"
+      },
+      "errors": ["MEMORY_UNAVAILABLE", "WRITE_REJECTED", "TIMEOUT"],
+      "timeout_seconds": {
+        "read": 2,
+        "write": 3
+      },
+      "retry": "1"
+    },
+    "CodeEditor": {
+      "input": {
+        "repo_path": "string",
+        "target_files": "string[]",
+        "edit_intent": "string",
+        "verify_commands": "string[]"
+      },
+      "output": {
+        "patch": "string",
+        "files_changed": "string[]",
+        "verification": "object"
+      },
+      "errors": ["PATCH_CONFLICT", "PATCH_REJECTED", "VERIFY_FAILED"],
+      "timeout_seconds": {
+        "patch": 30,
+        "verify": 300
+      },
+      "retry": "patch 0, verify 1"
+    }
+  }
+}

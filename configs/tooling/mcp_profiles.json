@@ -1,0 +1,90 @@
+{
+  "version": "2026-02-15",
+  "allowlist": [
+    "/Users/user/antigravity-core",
+    "/Users/user/projects",
+    "/Users/user/lab"
+  ],
+  "profiles": {
+    "core": {
+      "servers": [
+        "filesystem",
+        "git",
+        "memory",
+        "fetch",
+        "context7"
+      ]
+    },
+    "research": {
+      "servers": [
+        "fetch",
+        "memory",
+        "sequential-thinking",
+        "context7"
+      ]
+    },
+    "code-review": {
+      "servers": [
+        "filesystem",
+        "git",
+        "memory",
+        "context7"
+      ]
+    },
+    "ui-design": {
+      "servers": [
+        "filesystem",
+        "memory",
+        "context7",
+        "stitch",
+        "magicui",
+        "magic"
+      ]
+    },
+    "data-scraping": {
+      "servers": [
+        "fetch",
+        "filesystem",
+        "memory",
+        "context7"
+      ]
+    }
+  },
+  "routing": [
+    {
+      "task_type": [
+        "T6"
+      ],
+      "complexity": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "profile": "ui-design"
+    },
+    {
+      "task_type": [
+        "T5"
+      ],
+      "complexity": [
+        "C4",
+        "C5"
+      ],
+      "profile": "data-scraping"
+    },
+    {
+      "task_type": [
+        "T5"
+      ],
+      "complexity": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "profile": "research"
+    }
+  ],
+  "default_profile": "core"
+}

@@ -1,0 +1,9 @@
+IFC4 HIERARCHY MAPPING
+IfcProject (ID: demo-0001)
+  IfcBuilding
+    IfcBuildingStorey
+      IfcElementAssembly (Name: RIVO_FIX_FRAME)
+        IfcMember | ART: 100001.1 | Pset: Pset_RIVO_Common | ID: stud-1
+        IfcMember | ART: 100001.1 | Pset: Pset_RIVO_Common | ID: beam-top
+        IfcFastener | ART: 100002 | Pset: Pset_RIVO_Common | ID: corner-1
+        IfcSanitaryTerminal | ART: 200001 | Pset: Pset_RIVO_Set | ID: inst-1

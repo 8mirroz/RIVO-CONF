@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO Product Modeling"
+  short_description: "Maintain product schemas, catalogs, and versioned engineering parameters."
+  default_prompt: "Build or update RIVO product model artifacts with stable IDs, units, and versioning."

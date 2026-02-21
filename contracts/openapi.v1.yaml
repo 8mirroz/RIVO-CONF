@@ -1,0 +1,312 @@
+openapi: 3.1.0
+info:
+  title: RIVO Configurator API
+  version: "1.0.0"
+  description: "End-to-end API for RIVO Configurator, validating states, calculating CPQ, and generating DXF/IFC/Passport exports."
+  license:
+    name: MIT
+
+servers:
+  - url: /api/v1
+    description: Core API v1
+
+security:
+  - bearerAuth: []
+
+paths:
+  /solutions/generate:
+    post:
+      summary: "Generate a configuration solution."
+      operationId: generateSolution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              # Requires initial state/parameters
+      responses:
+        "200":
+          description: "Returns the configuration snapshot."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigurationSnapshot'
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /configurations/validate:
+    post:
+      summary: "Validate a given configuration state."
+      operationId: validateConfiguration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationSnapshot'
+      responses:
+        "200":
+          description: "Returns validation results."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ValidationResultItem'
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /cpq/calculate:
+    post:
+      summary: "Calculate Prices and BOM."
+      operationId: calculateCpq
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationSnapshot'
+      responses:
+        "200":
+          description: "Returns complete CPQ Quote including BOM."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceQuote'
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /exports/pdf:
+    post:
+      summary: "Export Technical Passport PDF."
+      operationId: exportPdf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: "Returns PDF binary standard."
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /exports/dxf:
+    post:
+      summary: "Export DXF Drawing."
+      operationId: exportDxf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: "Returns DXF binary stream."
+          content:
+            application/dxf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /exports/ifc:
+    post:
+      summary: "Export IFC4 BIM Model."
+      operationId: exportIfc
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RivoExportConfig'
+      responses:
+        "200":
+          description: "Returns IFC STEP format stream."
+          content:
+            application/step:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+  /exports/rivo:
+    post:
+      summary: "Generate canonical .rivo.json from ConfigurationSnapshot."
+      operationId: exportRivo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationSnapshot'
+      responses:
+        "200":
+          description: "Returns canonical RivoExportConfig JSON."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RivoExportConfig'
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    ConfigurationSnapshot:
+      type: object
+      description: "Internal transient configuration state, holding user selections, limits, and working sets."
+      required:
+        - stateId
+        - dimensions
+      properties:
+        stateId:
+          type: string
+          format: uuid
+        dimensions:
+          type: object
+          properties:
+            width:
+              type: number
+            height:
+              type: number
+            depth:
+              type: number
+        graph:
+          $ref: '#/components/schemas/StructureGraph'
+
+    ValidationResultItem:
+      type: object
+      description: "Result of a single rule/constraint check."
+      required:
+        - ruleId
+        - status
+      properties:
+        ruleId:
+          type: string
+        status:
+          type: string
+          enum: [pass, warning, error]
+        message:
+          type: string
+
+    BomItem:
+      type: object
+      description: "Item line inside the bill of materials."
+      required:
+        - article
+        - qty
+        - uom
+      properties:
+        article:
+          type: string
+        qty:
+          type: number
+        uom:
+          type: string
+        comment:
+          type: string
+
+    PriceQuote:
+      type: object
+      required:
+        - quoteId
+        - currency
+        - totalPrice
+        - bom
+      properties:
+        quoteId:
+          type: string
+        currency:
+          type: string
+          default: "RUB"
+        totalPrice:
+          type: number
+        bom:
+          type: array
+          items:
+            $ref: '#/components/schemas/BomItem'
+
+    StructureGraph:
+      type: object
+      description: "Node-based connection graph defining assembly."
+      required:
+        - rootNode
+        - edges
+      properties:
+        rootNode:
+          type: string
+        edges:
+          type: array
+          items:
+            type: object
+            required:
+              - from
+              - to
+            properties:
+              from:
+                type: string
+              to:
+                type: string
+              type:
+                type: string
+
+    ErrorEnvelope:
+      type: object
+      description: "Standard API Error Format"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+    RivoExportConfig:
+      description: "Strict schema referencing `rivo-config.schema.json`"
+      $ref: './schemas/rivo-config.schema.json'

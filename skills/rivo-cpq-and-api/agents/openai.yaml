@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO CPQ and API"
+  short_description: "Define contracts and implement server-side pricing, BOM, and snapshot APIs."
+  default_prompt: "Implement RIVO API and CPQ changes contract-first with deterministic outputs and replay safety."

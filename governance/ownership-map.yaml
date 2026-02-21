@@ -1,0 +1,63 @@
+version: 1
+last_updated: 2026-02-21
+owners:
+  orchestrator:
+    paths:
+      - AGENTS.md
+      - governance/**
+    contracts:
+      - process-rules
+      - merge-gates
+
+  product_modeling:
+    paths:
+      - models/catalog/**
+      - models/attributes/**
+      - models/versioning/**
+    contracts:
+      - product-schema
+      - catalog-version-tags
+
+  constraint_engine:
+    paths:
+      - models/rules/**
+      - backend/engine/**
+      - backend/validation/**
+    contracts:
+      - validation-result-schema
+      - rule-dsl-schema
+
+  cpq_api:
+    paths:
+      - contracts/openapi/**
+      - backend/api/**
+      - backend/cpq/**
+      - backend/bom/**
+      - backend/export/**
+    contracts:
+      - solution-generate-api
+      - validation-api
+      - cpq-api
+      - export-api
+
+  ui_3d:
+    paths:
+      - frontend/**
+      - viewer/**
+    contracts:
+      - ui-state-contract
+      - render-state-contract
+
+  quality_gates:
+    paths:
+      - tests/**
+      - ci/**
+      - scripts/quality/**
+    contracts:
+      - gate-policy
+      - replay-test-policy
+
+cross_domain_change_policy:
+  require_orchestrator_review: true
+  require_contract_first: true
+  require_version_bump_on_breaking_change: true

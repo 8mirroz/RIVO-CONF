@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO UI + 3D"
+  short_description: "Build guided/reverse UX and validated-state viewer behavior."
+  default_prompt: "Implement RIVO configurator UI and 3D integration with explainable constraints and server-driven validity."

@@ -1,0 +1,223 @@
+{
+  "version": "agent-os-v2",
+  "generated_at": "2026-02-21T07:24:25.017450+00:00",
+  "active_skills_md": "configs/skills/ACTIVE_SKILLS.md",
+  "skills": [
+    {
+      "name": "3d-web-experience",
+      "source": "skills/3d-web-experience",
+      "dest": ".agent/skills/3d-web-experience",
+      "sha256_tree": "ecdfa23b0db2cf5902edd8a64de11a513a8dae06c7e9ddfb5a7e713a127468b4"
+    },
+    {
+      "name": "agent-orchestration-multi-agent-optimize",
+      "source": "skills/agent-orchestration-multi-agent-optimize",
+      "dest": ".agent/skills/agent-orchestration-multi-agent-optimize",
+      "sha256_tree": "8532b7770296b83384b9d39d659ebb2be159cc82d7c5867eabf262c1c72c3d75"
+    },
+    {
+      "name": "api-design-principles",
+      "source": "skills/api-design-principles",
+      "dest": ".agent/skills/api-design-principles",
+      "sha256_tree": "76dd27d4abde84a4572e97d13b4c5039cdc1794cdca98b0784b1afdcb686ecb2"
+    },
+    {
+      "name": "architecture-decision-records",
+      "source": "skills/architecture-decision-records",
+      "dest": ".agent/skills/architecture-decision-records",
+      "sha256_tree": "6e327536168543cb64fa8cebc03c4f5750a612eb0b16021e16bfbafa4e6ac7e0"
+    },
+    {
+      "name": "backend-architect",
+      "source": "skills/backend-architect",
+      "dest": ".agent/skills/backend-architect",
+      "sha256_tree": "250a703e54411fa5ab1524d14710b058f0cd3dd2c1f6471fb0c6e39d940c7d3d"
+    },
+    {
+      "name": "backend-development-feature-development",
+      "source": "skills/backend-development-feature-development",
+      "dest": ".agent/skills/backend-development-feature-development",
+      "sha256_tree": "92a6fd2f3fc632a9bba554aa6ece1ce684aca71f81847c2efbcb7678e97b8496"
+    },
+    {
+      "name": "business-analyst",
+      "source": "skills/business-analyst",
+      "dest": ".agent/skills/business-analyst",
+      "sha256_tree": "8820397fffdb89002aa1e75952b52b750fdad5aae2c0f446d7b94f1df23169d1"
+    },
+    {
+      "name": "code-review-ai-ai-review",
+      "source": "skills/code-review-ai-ai-review",
+      "dest": ".agent/skills/code-review-ai-ai-review",
+      "sha256_tree": "08f1aad821791a8e51d5b31597dde72eb8d9fd6e72e97862ffe1283ccdada95f"
+    },
+    {
+      "name": "code-review-excellence",
+      "source": "skills/code-review-excellence",
+      "dest": ".agent/skills/code-review-excellence",
+      "sha256_tree": "0b35c163a1f008911d32701491de26975c919a2e2affa56e00fedabdf100ee0f"
+    },
+    {
+      "name": "context-driven-development",
+      "source": "skills/context-driven-development",
+      "dest": ".agent/skills/context-driven-development",
+      "sha256_tree": "b7122236f2d592bb2d3fc1ac1c97452d1e675cc0b7dace7e6f78efa17444b4f3"
+    },
+    {
+      "name": "context-optimization",
+      "source": "skills/context-optimization",
+      "dest": ".agent/skills/context-optimization",
+      "sha256_tree": "09ea1ec84fbbed827a3d18fdcc3408cec5cb7c92600acfffefec81f5c18a8901"
+    },
+    {
+      "name": "database-architect",
+      "source": "skills/database-architect",
+      "dest": ".agent/skills/database-architect",
+      "sha256_tree": "b0eefaaaae4d6f5836ac41290e7331fa98d50ffc08cd0e2e9dec0b4a4193919f"
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "source": "skills/dispatching-parallel-agents",
+      "dest": ".agent/skills/dispatching-parallel-agents",
+      "sha256_tree": "0e0be372333d15475585a0ba1298310e52ee77c7c629ab26387b47e49ebca26e"
+    },
+    {
+      "name": "frontend-developer",
+      "source": "skills/frontend-developer",
+      "dest": ".agent/skills/frontend-developer",
+      "sha256_tree": "717d1f2aea87ab2031ab9ab89f250b3bec09855e2779a538fd362c0226829d69"
+    },
+    {
+      "name": "git-pr-workflows-git-workflow",
+      "source": "skills/git-pr-workflows-git-workflow",
+      "dest": ".agent/skills/git-pr-workflows-git-workflow",
+      "sha256_tree": "fe5096491459fabfa711ba96c64eab647fb5c19b42e0ab51490bdea33ddc59d1"
+    },
+    {
+      "name": "git-pr-workflows-pr-enhance",
+      "source": "skills/git-pr-workflows-pr-enhance",
+      "dest": ".agent/skills/git-pr-workflows-pr-enhance",
+      "sha256_tree": "5a427435a66b1bf30724a5576f5b490edc96d383ad7e9b470a449ebdda9613c4"
+    },
+    {
+      "name": "github-actions-templates",
+      "source": "skills/github-actions-templates",
+      "dest": ".agent/skills/github-actions-templates",
+      "sha256_tree": "e51ce0df32d6529e8af50fa0d76ac0114855d9c9f73d6b68e6e6fd4e668f68b7"
+    },
+    {
+      "name": "openapi-spec-generation",
+      "source": "skills/openapi-spec-generation",
+      "dest": ".agent/skills/openapi-spec-generation",
+      "sha256_tree": "001ec40e231136795b869b0ce5c56a278dfe90e3b4cd71454c1d7a9c1a4111d8"
+    },
+    {
+      "name": "performance-testing-review-multi-agent-review",
+      "source": "skills/performance-testing-review-multi-agent-review",
+      "dest": ".agent/skills/performance-testing-review-multi-agent-review",
+      "sha256_tree": "89d1791073616420b0420b2b0553a38f866ef1f52c0d95f4c59891cf14f4d1f7"
+    },
+    {
+      "name": "playwright-skill",
+      "source": "skills/playwright-skill",
+      "dest": ".agent/skills/playwright-skill",
+      "sha256_tree": "3c8420e0c66efa30750ec47263f8aa862863b50418ac525b8688aeb611b4e3f2"
+    },
+    {
+      "name": "python-pro",
+      "source": "skills/python-pro",
+      "dest": ".agent/skills/python-pro",
+      "sha256_tree": "d8a2cfd94d05697b1850f51602d7cbaa9b0ae58594e663ff72d5a5da01711bdd"
+    },
+    {
+      "name": "rivo-constraint-engine",
+      "source": "skills/rivo-constraint-engine",
+      "dest": ".agent/skills/rivo-constraint-engine",
+      "sha256_tree": "45c1b9fb1defcadffa231d614cb185bf6a63193c3562e20b8b1dd8bf7323e397"
+    },
+    {
+      "name": "rivo-cpq-and-api",
+      "source": "skills/rivo-cpq-and-api",
+      "dest": ".agent/skills/rivo-cpq-and-api",
+      "sha256_tree": "b8685bc8ba1c77dcc9499c7370195cdd877834fa30ed9bd5ebde036d0f034873"
+    },
+    {
+      "name": "rivo-multi-agent-orchestrator",
+      "source": "skills/rivo-multi-agent-orchestrator",
+      "dest": ".agent/skills/rivo-multi-agent-orchestrator",
+      "sha256_tree": "08e9c56af42a7ae9fabe86413745ef7d3530860d9e087c24d0da4d46ddbbc8e7"
+    },
+    {
+      "name": "rivo-product-modeling",
+      "source": "skills/rivo-product-modeling",
+      "dest": ".agent/skills/rivo-product-modeling",
+      "sha256_tree": "079742e72e6e02bdc1d4c9c1888a81c1f3ebec529d9cc70a83762d8fd57d8a64"
+    },
+    {
+      "name": "rivo-quality-gates",
+      "source": "skills/rivo-quality-gates",
+      "dest": ".agent/skills/rivo-quality-gates",
+      "sha256_tree": "d1197e974a296dcc388791c67b0e9e915093409958a23299ee50efe5435cb116"
+    },
+    {
+      "name": "rivo-ui-3d-experience",
+      "source": "skills/rivo-ui-3d-experience",
+      "dest": ".agent/skills/rivo-ui-3d-experience",
+      "sha256_tree": "eea2dc1ca232be6c3007d3d32780ec9d2eafe67c894da21419ba756ee65d4798"
+    },
+    {
+      "name": "rust-pro",
+      "source": "skills/rust-pro",
+      "dest": ".agent/skills/rust-pro",
+      "sha256_tree": "6ca2a3608d4d7bcbc4f7fc0a7a30a7d3aa1da8db20199bde251d01b5de40dc8f"
+    },
+    {
+      "name": "security-compliance-compliance-check",
+      "source": "skills/security-compliance-compliance-check",
+      "dest": ".agent/skills/security-compliance-compliance-check",
+      "sha256_tree": "5359c3634672ab3befac538f19bc28786d51305b9dde1074e3097f0fafb55a93"
+    },
+    {
+      "name": "subagent-driven-development",
+      "source": "skills/subagent-driven-development",
+      "dest": ".agent/skills/subagent-driven-development",
+      "sha256_tree": "a3a43b87cc2372c5c68a9ed4d9453edc1cc954921ea478d3631c349eb31dfb8c"
+    },
+    {
+      "name": "tdd-orchestrator",
+      "source": "skills/tdd-orchestrator",
+      "dest": ".agent/skills/tdd-orchestrator",
+      "sha256_tree": "5e6060b86aeb4f4f86ea7b076ef4a054b53d4387233bd7bcb5485477b1fce333"
+    },
+    {
+      "name": "test-automator",
+      "source": "skills/test-automator",
+      "dest": ".agent/skills/test-automator",
+      "sha256_tree": "bc272d16c24f7ba6462113b8cc262c6363b818046f15bc42e7aafbd836df1c87"
+    },
+    {
+      "name": "threejs-skills",
+      "source": "skills/threejs-skills",
+      "dest": ".agent/skills/threejs-skills",
+      "sha256_tree": "65cb814237fcce981153ef609c0868419a1f126baac28e9875954b73754df1fe"
+    },
+    {
+      "name": "turborepo-caching",
+      "source": "skills/turborepo-caching",
+      "dest": ".agent/skills/turborepo-caching",
+      "sha256_tree": "c6f4f8a81fed27f20be59e80c159f9ba41391e91f4aa1eb70a667efbcf9a4cae"
+    },
+    {
+      "name": "ui-ux-designer",
+      "source": "skills/ui-ux-designer",
+      "dest": ".agent/skills/ui-ux-designer",
+      "sha256_tree": "0db9b5e3f4aea282851c7a74c10fe8528875bd360b36fcadebecc8bbc79f6224"
+    },
+    {
+      "name": "workflow-orchestration-patterns",
+      "source": "skills/workflow-orchestration-patterns",
+      "dest": ".agent/skills/workflow-orchestration-patterns",
+      "sha256_tree": "fa2b5dff9d06b0e0aafe6a2c1de59ac58c2f653eebc8c50a274e856272d06f21"
+    }
+  ]
+}

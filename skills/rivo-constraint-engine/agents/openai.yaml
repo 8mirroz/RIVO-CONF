@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO Constraint Engine"
+  short_description: "Implement DSL rules, explainable validation, and deterministic solver flow."
+  default_prompt: "Author or debug RIVO constraint rules with explainability, auto-correction, and deterministic validation."

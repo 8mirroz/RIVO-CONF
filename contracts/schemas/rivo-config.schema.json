@@ -1,0 +1,531 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/rivo-config.schema.json",
+  "title": "RIVO Configurator Project",
+  "type": "object",
+  "required": [
+    "meta",
+    "frame",
+    "catalog",
+    "bom",
+    "views"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "projectId",
+        "createdAt",
+        "units"
+      ],
+      "properties": {
+        "projectId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "units": {
+          "type": "string",
+          "enum": [
+            "mm"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "default": "1.0.0"
+        },
+        "author": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "frame": {
+      "type": "object",
+      "required": [
+        "type",
+        "width",
+        "height",
+        "depth",
+        "studStep",
+        "origin"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "falsewall",
+            "partition",
+            "corner",
+            "column",
+            "installation_module"
+          ]
+        },
+        "width": {
+          "type": "number",
+          "minimum": 1
+        },
+        "height": {
+          "type": "number",
+          "minimum": 1
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 1
+        },
+        "studStep": {
+          "type": "number",
+          "minimum": 50
+        },
+        "origin": {
+          "type": "object",
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "grid": {
+          "type": "object",
+          "properties": {
+            "snapMm": {
+              "type": "number",
+              "default": 1
+            },
+            "roundMm": {
+              "type": "number",
+              "default": 0.1
+            }
+          },
+          "additionalProperties": false
+        },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "maxWaterPressureBar": {
+              "type": "number",
+              "default": 6
+            },
+            "recommendedFilterMicron": {
+              "type": "number",
+              "default": 100
+            },
+            "waterStandard": {
+              "type": "string",
+              "default": "GOST 2874-82"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "catalog": {
+      "type": "object",
+      "description": "Catalog registry; items referenced by article.",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "article",
+              "name",
+              "category",
+              "uom"
+            ],
+            "properties": {
+              "article": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "profile",
+                  "connector",
+                  "fastener",
+                  "support",
+                  "plate",
+                  "cap",
+                  "hinge_kit",
+                  "installation",
+                  "flush_panel"
+                ]
+              },
+              "uom": {
+                "type": "string",
+                "enum": [
+                  "pcs",
+                  "mm"
+                ]
+              },
+              "pack": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "material": {
+                "type": "string"
+              },
+              "coating": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "imageRef": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "elements": {
+      "type": "array",
+      "description": "Geometry + connections. This is the core scene graph for CAD/3D.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "article",
+          "kind",
+          "transform",
+          "geom",
+          "connections"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "article": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "profile",
+              "connector",
+              "fastener",
+              "support",
+              "equipment",
+              "accessory"
+            ]
+          },
+          "transform": {
+            "type": "object",
+            "required": [
+              "pos",
+              "rot"
+            ],
+            "properties": {
+              "pos": {
+                "$ref": "#/$defs/vec3"
+              },
+              "rot": {
+                "$ref": "#/$defs/rot3"
+              }
+            },
+            "additionalProperties": false
+          },
+          "geom": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "segment",
+                  "polyline",
+                  "block",
+                  "bbox",
+                  "mesh_ref"
+                ]
+              },
+              "start": {
+                "$ref": "#/$defs/vec3"
+              },
+              "end": {
+                "$ref": "#/$defs/vec3"
+              },
+              "polyline": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/vec3"
+                }
+              },
+              "blockName": {
+                "type": "string"
+              },
+              "bbox": {
+                "type": "object",
+                "properties": {
+                  "w": {
+                    "type": "number"
+                  },
+                  "h": {
+                    "type": "number"
+                  },
+                  "d": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "meshRef": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "connections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "to",
+                "type"
+              ],
+              "properties": {
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "corner",
+                    "inline",
+                    "t",
+                    "cross",
+                    "mount",
+                    "brace"
+                  ]
+                },
+                "node": {
+                  "$ref": "#/$defs/vec3"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "props": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bom": {
+      "type": "object",
+      "required": [
+        "lines"
+      ],
+      "properties": {
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "article",
+              "qty",
+              "uom"
+            ],
+            "properties": {
+              "article": {
+                "type": "string"
+              },
+              "qty": {
+                "type": "number",
+                "minimum": 0
+              },
+              "uom": {
+                "type": "string",
+                "enum": [
+                  "pcs",
+                  "mm"
+                ]
+              },
+              "comment": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "views": {
+      "type": "object",
+      "required": [
+        "front",
+        "side"
+      ],
+      "properties": {
+        "front": {
+          "type": "object",
+          "required": [
+            "mode",
+            "dimensions"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "cad",
+                "shaded"
+              ]
+            },
+            "dimensions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/dimension"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "side": {
+          "type": "object",
+          "required": [
+            "mode",
+            "dimensions"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "cad",
+                "shaded"
+              ]
+            },
+            "dimensions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/dimension"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "vec3": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rot3": {
+      "type": "object",
+      "required": [
+        "rx",
+        "ry",
+        "rz"
+      ],
+      "properties": {
+        "rx": {
+          "type": "number"
+        },
+        "ry": {
+          "type": "number"
+        },
+        "rz": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dimension": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "p1",
+        "p2",
+        "offset",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "linear",
+            "aligned"
+          ]
+        },
+        "p1": {
+          "$ref": "#/$defs/vec3"
+        },
+        "p2": {
+          "$ref": "#/$defs/vec3"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "mm"
+          ],
+          "default": "mm"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

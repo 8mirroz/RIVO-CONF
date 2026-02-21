@@ -1,0 +1,32 @@
+version: "2.0"
+strategy: "free-first"
+
+env:
+  required:
+    - "OPENROUTER_API_KEY"
+  defaults:
+    ANTIGRAVITY_MODE: "economy"
+
+retries: 2
+
+timeout_seconds:
+  light: 60
+  quality: 120
+  reasoning: 240
+
+tiers:
+  reasoning:
+    models:
+      - "deepseek/deepseek-r1:free"
+      - "google/gemini-2.0-pro-exp-02-05:free"
+      - "meta-llama/llama-3.3-70b-instruct:free"
+  quality:
+    models:
+      - "deepseek/deepseek-v3:free"
+      - "google/gemini-2.0-flash-exp:free"
+      - "mistralai/mistral-small-24b-instruct-2501:free"
+  light:
+    models:
+      - "google/gemini-2.0-flash-exp:free"
+      - "qwen/qwen-2.5-7b-instruct:free"
+      - "microsoft/phi-3-mini-128k-instruct:free"

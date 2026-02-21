@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO Orchestrator"
+  short_description: "Plan and coordinate parallel agent workstreams without merge conflicts."
+  default_prompt: "Coordinate multi-agent execution for RIVO CONF with clear ownership, dependencies, and integration gates."

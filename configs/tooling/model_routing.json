@@ -1,0 +1,48 @@
+{
+  "version": "2026-02-15",
+  "tiers": ["reasoning", "quality", "light"],
+  "routing": [
+    {"task_type": "T1", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T1", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T1", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T1", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T1", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T2", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T2", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T2", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T2", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T2", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T3", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T3", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T3", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T3", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T3", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T4", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T4", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T4", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T4", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T4", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T5", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T5", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T5", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T5", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T5", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T6", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T6", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T6", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T6", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T6", "complexity": "C5", "model_tier": "reasoning"},
+
+    {"task_type": "T7", "complexity": "C1", "model_tier": "light"},
+    {"task_type": "T7", "complexity": "C2", "model_tier": "light"},
+    {"task_type": "T7", "complexity": "C3", "model_tier": "quality"},
+    {"task_type": "T7", "complexity": "C4", "model_tier": "reasoning"},
+    {"task_type": "T7", "complexity": "C5", "model_tier": "reasoning"}
+  ],
+  "notes": "Complexity-based routing: C1/C2->light, C3->quality, C4/C5->reasoning"
+}

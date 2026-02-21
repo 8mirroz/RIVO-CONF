@@ -1,0 +1,4 @@
+interface:
+  display_name: "RIVO Quality Gates"
+  short_description: "Run merge and release gates across contracts, tests, and deterministic replay."
+  default_prompt: "Validate RIVO changes against quality gates and publish pass/fail release readiness status."

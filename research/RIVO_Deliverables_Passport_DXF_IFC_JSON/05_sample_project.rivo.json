@@ -1,0 +1,571 @@
+{
+  "meta": {
+    "projectId": "demo-0001",
+    "createdAt": "2026-02-21T00:00:00Z",
+    "units": "mm",
+    "version": "1.0.0",
+    "author": "RIVO Configurator"
+  },
+  "frame": {
+    "type": "falsewall",
+    "width": 1200,
+    "height": 2500,
+    "depth": 200,
+    "studStep": 600,
+    "origin": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "grid": {
+      "snapMm": 1,
+      "roundMm": 0.1
+    },
+    "constraints": {
+      "maxWaterPressureBar": 6,
+      "recommendedFilterMicron": 100,
+      "waterStandard": "GOST 2874-82"
+    }
+  },
+  "catalog": {
+    "items": [
+      {
+        "article": "100001.1",
+        "name": "Монтажный профиль (уп. 1 шт)",
+        "category": "profile",
+        "uom": "mm",
+        "pack": 1,
+        "material": "Алюминиевый сплав",
+        "notes": "Для сборки каркасов/фальшстен под ГКЛ.",
+        "imageRef": "images/100001.1.png"
+      },
+      {
+        "article": "100098",
+        "name": "Монтажный профиль (уп. 98 шт)",
+        "category": "profile",
+        "uom": "mm",
+        "pack": 98,
+        "material": "Алюминиевый сплав",
+        "imageRef": "images/100098.png"
+      },
+      {
+        "article": "100002",
+        "name": "Угловой элемент 45/90/180 (уп. 100 шт)",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 100,
+        "material": "Алюминиевый сплав",
+        "notes": "Литая конструкция; совместима с профилями других производителей.",
+        "imageRef": "images/100002.png"
+      },
+      {
+        "article": "100002.1",
+        "name": "Угловой элемент 45/90/180 (уп. 20 шт)",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 20,
+        "material": "Алюминиевый сплав",
+        "imageRef": "images/100002.1.png"
+      },
+      {
+        "article": "100013",
+        "name": "Заглушка профиля",
+        "category": "cap",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Защита торцов от влаги/пыли, закрывает острые края.",
+        "imageRef": "images/100013.png"
+      },
+      {
+        "article": "100014",
+        "name": "Торцовое соединение",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Соосное соединение профилей; экономия материала.",
+        "imageRef": "images/100014.png"
+      },
+      {
+        "article": "100004",
+        "name": "Крепление одинарное (1 шт)",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 1,
+        "coating": "Гальваническое",
+        "notes": "Крепление к стене/потолку; в комплекте крепеж.",
+        "imageRef": "images/100004.png"
+      },
+      {
+        "article": "100004.1",
+        "name": "Крепление одинарное (10 шт)",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 10,
+        "coating": "Гальваническое",
+        "imageRef": "images/100004.1.png"
+      },
+      {
+        "article": "100004.2",
+        "name": "Крепление одинарное (100 шт)",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 100,
+        "coating": "Гальваническое",
+        "imageRef": "images/100004.2.png"
+      },
+      {
+        "article": "100005",
+        "name": "Крепление двойное (1 шт)",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 1,
+        "coating": "Гальваническое",
+        "notes": "Крепление двух направляющих к стене/потолку.",
+        "imageRef": "images/100005.png"
+      },
+      {
+        "article": "100005.1",
+        "name": "Крепление двойное (5 шт)",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 5,
+        "coating": "Гальваническое",
+        "imageRef": "images/100005.1.png"
+      },
+      {
+        "article": "100006",
+        "name": "Зажим (1 шт)",
+        "category": "fastener",
+        "uom": "pcs",
+        "pack": 1,
+        "imageRef": "images/100006.png"
+      },
+      {
+        "article": "100006.1",
+        "name": "Зажим (20 шт)",
+        "category": "fastener",
+        "uom": "pcs",
+        "pack": 20,
+        "imageRef": "images/100006.1.png"
+      },
+      {
+        "article": "100006.2",
+        "name": "Зажим (100 шт)",
+        "category": "fastener",
+        "uom": "pcs",
+        "pack": 100,
+        "imageRef": "images/100006.2.png"
+      },
+      {
+        "article": "100008",
+        "name": "Монтажная пластина",
+        "category": "plate",
+        "uom": "pcs",
+        "pack": 1,
+        "material": "Оцинкованная сталь",
+        "coating": "Гальваническое (элементы крепления)",
+        "imageRef": "images/100008.png"
+      },
+      {
+        "article": "100007",
+        "name": "Соединение универсальное (1 шт)",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 1,
+        "coating": "Гальваническое",
+        "notes": "Для усиления общего каркаса.",
+        "imageRef": "images/100007.png"
+      },
+      {
+        "article": "100007.1",
+        "name": "Соединение универсальное (4 шт)",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 4,
+        "coating": "Гальваническое",
+        "imageRef": "images/100007.1.png"
+      },
+      {
+        "article": "100007.2",
+        "name": "Соединение универсальное (10 шт)",
+        "category": "connector",
+        "uom": "pcs",
+        "pack": 10,
+        "coating": "Гальваническое",
+        "imageRef": "images/100007.2.png"
+      },
+      {
+        "article": "100009",
+        "name": "Телескопические опоры",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Ставятся сверху в инсталляции RIVO Set; регулируются по высоте.",
+        "imageRef": "images/100009.png"
+      },
+      {
+        "article": "100010",
+        "name": "Комплект крепления инсталляции к стене",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Фиксация инсталляции к стене и/или к профилю RIVO Fix.",
+        "imageRef": "images/100010.png"
+      },
+      {
+        "article": "100011",
+        "name": "Опора для отдельной перегородки",
+        "category": "support",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Фиксация каркаса к опорной поверхности; отдельно стоящие конструкции.",
+        "imageRef": "images/100011.png"
+      },
+      {
+        "article": "100003",
+        "name": "Вставка резьбовая М8 (100 шт)",
+        "category": "fastener",
+        "uom": "pcs",
+        "pack": 100,
+        "notes": "Используется с 100002; крепление хомутов труб.",
+        "imageRef": "images/100003.png"
+      },
+      {
+        "article": "100003.1",
+        "name": "Вставка резьбовая М8 (10 шт)",
+        "category": "fastener",
+        "uom": "pcs",
+        "pack": 10,
+        "imageRef": "images/100003.1.png"
+      },
+      {
+        "article": "100012",
+        "name": "Комплект монтажных петель",
+        "category": "hinge_kit",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Люки: 180≤A≤600 мм; 200≤B≤600 мм.",
+        "imageRef": "images/100012.png"
+      },
+      {
+        "article": "200001",
+        "name": "RIVO Set A — инсталляция унитаза",
+        "category": "installation",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Бак 10 л; двойной слив; рама до 400 кг; опоры регулируемые; R 1/2\".",
+        "imageRef": "images/200001.png"
+      },
+      {
+        "article": "200002",
+        "name": "RIVO Set AM — инсталляция унитаза (МГН)",
+        "category": "installation",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Включает кронштейны под поручни; комплект крепления к стене (8 шт).",
+        "imageRef": "images/200002.png"
+      },
+      {
+        "article": "203001",
+        "name": "RIVO Set B — инсталляция биде",
+        "category": "installation",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Опоры 0–250 мм; шпильки M12; DN50; площадки под водорозетки.",
+        "imageRef": "images/203001.png"
+      },
+      {
+        "article": "201001",
+        "name": "RIVO Set D — инсталляция писсуара",
+        "category": "installation",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "Глубина установки 90 мм; шпильки M8; DN50; регулируемые пластины.",
+        "imageRef": "images/201001.png"
+      },
+      {
+        "article": "301001",
+        "name": "RIVO Touch Lux — панель смыва (хром мат.)",
+        "category": "flush_panel",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "150×220×6 мм; скрытое крепление.",
+        "imageRef": "images/301001.png"
+      },
+      {
+        "article": "302001",
+        "name": "RIVO Touch Line — панель смыва (хром мат.)",
+        "category": "flush_panel",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "150×220×6 мм; скрытое крепление.",
+        "imageRef": "images/302001.png"
+      },
+      {
+        "article": "303001",
+        "name": "RIVO Touch Neo — панель смыва (хром мат.)",
+        "category": "flush_panel",
+        "uom": "pcs",
+        "pack": 1,
+        "notes": "150×220×6 мм; скрытое крепление.",
+        "imageRef": "images/303001.png"
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "stud-1",
+      "article": "100001.1",
+      "kind": "profile",
+      "transform": {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "rx": 0,
+          "ry": 0,
+          "rz": 0
+        }
+      },
+      "geom": {
+        "type": "segment",
+        "start": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "end": {
+          "x": 0,
+          "y": 2500,
+          "z": 0
+        }
+      },
+      "connections": [
+        {
+          "to": "beam-top",
+          "type": "corner",
+          "node": {
+            "x": 0,
+            "y": 2500,
+            "z": 0
+          }
+        }
+      ],
+      "tags": [
+        "front_primary"
+      ],
+      "props": {
+        "role": "STUD"
+      }
+    },
+    {
+      "id": "beam-top",
+      "article": "100001.1",
+      "kind": "profile",
+      "transform": {
+        "pos": {
+          "x": 0,
+          "y": 2500,
+          "z": 0
+        },
+        "rot": {
+          "rx": 0,
+          "ry": 0,
+          "rz": 0
+        }
+      },
+      "geom": {
+        "type": "segment",
+        "start": {
+          "x": 0,
+          "y": 2500,
+          "z": 0
+        },
+        "end": {
+          "x": 1200,
+          "y": 2500,
+          "z": 0
+        }
+      },
+      "connections": [
+        {
+          "to": "stud-1",
+          "type": "corner",
+          "node": {
+            "x": 0,
+            "y": 2500,
+            "z": 0
+          }
+        }
+      ],
+      "tags": [
+        "front_primary"
+      ],
+      "props": {
+        "role": "BEAM"
+      }
+    },
+    {
+      "id": "corner-1",
+      "article": "100002",
+      "kind": "connector",
+      "transform": {
+        "pos": {
+          "x": 0,
+          "y": 2500,
+          "z": 0
+        },
+        "rot": {
+          "rx": 0,
+          "ry": 0,
+          "rz": 0
+        }
+      },
+      "geom": {
+        "type": "block",
+        "blockName": "RIVO_100002"
+      },
+      "connections": [
+        {
+          "to": "stud-1",
+          "type": "corner"
+        },
+        {
+          "to": "beam-top",
+          "type": "corner"
+        }
+      ],
+      "tags": [
+        "node"
+      ],
+      "props": {
+        "angleDeg": 90
+      }
+    },
+    {
+      "id": "inst-1",
+      "article": "200001",
+      "kind": "equipment",
+      "transform": {
+        "pos": {
+          "x": 600,
+          "y": 0,
+          "z": 90
+        },
+        "rot": {
+          "rx": 0,
+          "ry": 0,
+          "rz": 0
+        }
+      },
+      "geom": {
+        "type": "bbox",
+        "bbox": {
+          "w": 500,
+          "h": 1120,
+          "d": 200
+        }
+      },
+      "connections": [
+        {
+          "to": "stud-1",
+          "type": "mount"
+        }
+      ],
+      "tags": [
+        "front_primary",
+        "side_secondary"
+      ],
+      "props": {
+        "maxLoadKg": 400
+      }
+    }
+  ],
+  "bom": {
+    "lines": [
+      {
+        "article": "100001.1",
+        "qty": 3700,
+        "uom": "mm",
+        "comment": "Суммарная длина профиля по сегментам"
+      },
+      {
+        "article": "100002",
+        "qty": 1,
+        "uom": "pcs",
+        "comment": "Угловой узел"
+      },
+      {
+        "article": "200001",
+        "qty": 1,
+        "uom": "pcs",
+        "comment": "Инсталляция унитаза"
+      }
+    ]
+  },
+  "views": {
+    "front": {
+      "mode": "cad",
+      "dimensions": [
+        {
+          "id": "dim-W",
+          "type": "linear",
+          "p1": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "p2": {
+            "x": 1200,
+            "y": 0,
+            "z": 0
+          },
+          "offset": 120,
+          "label": "W=1200",
+          "unit": "mm"
+        },
+        {
+          "id": "dim-H",
+          "type": "linear",
+          "p1": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "p2": {
+            "x": 0,
+            "y": 2500,
+            "z": 0
+          },
+          "offset": 120,
+          "label": "H=2500",
+          "unit": "mm"
+        }
+      ]
+    },
+    "side": {
+      "mode": "cad",
+      "dimensions": [
+        {
+          "id": "dim-D",
+          "type": "linear",
+          "p1": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "p2": {
+            "x": 0,
+            "y": 0,
+            "z": 200
+          },
+          "offset": 120,
+          "label": "D=200",
+          "unit": "mm"
+        }
+      ]
+    }
+  }
+}
