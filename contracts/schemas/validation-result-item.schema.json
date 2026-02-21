@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/validation-result-item.schema.json",
+  "title": "ValidationResultItem",
+  "type": "object",
+  "required": ["ruleId", "status"],
+  "properties": {
+    "ruleId": {"type": "string"},
+    "status": {"type": "string", "enum": ["pass", "warning", "error", "auto_corrected"]},
+    "message": {"type": "string"},
+    "affected": {
+      "type": "object",
+      "properties": {
+        "kind": {"type": "string"},
+        "ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "explanation": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "message": {"type": "string"},
+        "why": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "suggestedFixes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

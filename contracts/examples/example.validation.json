@@ -1,0 +1,13 @@
+[
+  {
+    "ruleId": "RULE_MIN_HEIGHT",
+    "status": "pass",
+    "message": "Height is valid"
+  },
+  {
+    "ruleId": "RULE_MAX_LOAD",
+    "status": "warning",
+    "message": "Load close to limit",
+    "explanation": {"title": "High load", "message": "Close to max", "why": ["Load > 90% capacity"]}
+  }
+]

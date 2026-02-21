@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/configuration-snapshot.schema.json",
+  "title": "ConfigurationSnapshot",
+  "type": "object",
+  "required": ["stateId", "dimensions"],
+  "properties": {
+    "stateId": {"type": "string", "format": "uuid"},
+    "dimensions": {
+      "type": "object",
+      "required": ["width", "height", "depth"],
+      "properties": {
+        "width": {"type": "number"},
+        "height": {"type": "number"},
+        "depth": {"type": "number"}
+      },
+      "additionalProperties": false
+    },
+    "graph": {"$ref": "./structure-graph.schema.json"},
+    "bom": {
+      "type": "array",
+      "items": {"$ref": "./bom-item.schema.json"}
+    },
+    "versionTag": {
+      "type": "object",
+      "properties": {
+        "catalogVersion": {"type": "string"},
+        "rulesVersion": {"type": "string"},
+        "pricingVersion": {"type": "string"},
+        "assetsVersion": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

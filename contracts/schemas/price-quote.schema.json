@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/price-quote.schema.json",
+  "title": "PriceQuote",
+  "type": "object",
+  "required": ["quoteId", "currency", "totalPrice", "bom"],
+  "properties": {
+    "quoteId": {"type": "string"},
+    "currency": {"type": "string", "default": "RUB"},
+    "totalPrice": {"type": "number"},
+    "bom": {
+      "type": "array",
+      "items": {"$ref": "./bom-item.schema.json"}
+    }
+  },
+  "additionalProperties": false
+}

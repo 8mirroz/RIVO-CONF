@@ -1,0 +1,4 @@
+[
+  {"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"},
+  {"article": "100002", "qty": 2, "uom": "pcs", "comment": "Corner"}
+]

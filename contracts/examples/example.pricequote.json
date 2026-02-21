@@ -1,0 +1,8 @@
+{
+  "quoteId": "quote-001",
+  "currency": "RUB",
+  "totalPrice": 15000,
+  "bom": [
+    {"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"}
+  ]
+}

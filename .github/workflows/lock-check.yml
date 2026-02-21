@@ -1,0 +1,114 @@
+name: lock-check
+on:
+  pull_request:
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lock enforcement
+        uses: actions/github-script@v7
+        env:
+          LOCK_PROJECT_ID: ${{ secrets.LOCK_PROJECT_ID }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.setFailed('No PR context');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: pr.number,
+              per_page: 100
+            });
+
+            const changedFiles = files.map(f => f.filename);
+
+            // Optional: read lock info from GitHub Project fields if configured
+            const projectId = process.env.LOCK_PROJECT_ID;
+            let lockPaths = [];
+            let lockOwner = null;
+            if (projectId) {
+              // Expect PR body to reference an issue: "Issue: #123"
+              const body = pr.body || '';
+              const issueMatch = body.match(/Issue:\s*#(\d+)/i);
+              if (issueMatch) {
+                const issueNumber = parseInt(issueMatch[1], 10);
+                const query = `
+                  query($owner:String!, $repo:String!, $number:Int!) {
+                    repository(owner:$owner, name:$repo) {
+                      issue(number:$number) {
+                        projectItems(first:20) {
+                          nodes {
+                            project { id }
+                            fieldValues(first:20) {
+                              nodes {
+                                ... on ProjectV2ItemFieldTextValue { text field { name } }
+                                ... on ProjectV2ItemFieldSingleSelectValue { name field { name } }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `;
+                const res = await github.graphql(query, { owner, repo, number: issueNumber });
+                const items = res.repository.issue.projectItems.nodes || [];
+                const item = items.find(i => i.project.id === projectId);
+                if (item) {
+                  const fields = item.fieldValues.nodes || [];
+                  const fieldMap = new Map();
+                  for (const f of fields) {
+                    fieldMap.set(f.field.name, f.text || f.name);
+                  }
+                  if (fieldMap.has('Lock Paths')) {
+                    lockPaths = String(fieldMap.get('Lock Paths')).split(',').map(s => s.trim()).filter(Boolean);
+                  }
+                  if (fieldMap.has('Lock Owner')) {
+                    lockOwner = String(fieldMap.get('Lock Owner')).trim();
+                  }
+                }
+              }
+            }
+
+            // Fallback to PR body lock_paths
+            if (lockPaths.length === 0) {
+              const body = pr.body || '';
+              const lockLine = body.split('\n').find(l => l.toLowerCase().startsWith('lock_paths:'));
+              if (!lockLine) {
+                core.setFailed('Missing lock_paths in PR body');
+                return;
+              }
+              lockPaths = lockLine.split(':')[1].split(',').map(s => s.trim()).filter(Boolean);
+              if (!lockPaths.length) {
+                core.setFailed('Empty lock_paths in PR body');
+                return;
+              }
+            }
+
+            // Optional lock owner enforcement
+            if (lockOwner && lockOwner !== pr.user.login) {
+              core.setFailed(`Lock Owner mismatch. Expected ${lockOwner}, got ${pr.user.login}`);
+              return;
+            }
+
+            const missing = [];
+            for (const file of changedFiles) {
+              const ok = lockPaths.some(p => file === p || file.startsWith(p));
+              if (!ok) missing.push(file);
+            }
+
+            if (missing.length) {
+              core.setFailed(`Files not covered by lock_paths: ${missing.join(', ')}`);
+            } else {
+              core.notice('Lock check passed');
+            }

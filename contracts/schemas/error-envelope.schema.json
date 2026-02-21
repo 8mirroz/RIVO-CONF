@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/error-envelope.schema.json",
+  "title": "ErrorEnvelope",
+  "type": "object",
+  "required": ["code", "message"],
+  "properties": {
+    "code": {"type": "string"},
+    "message": {"type": "string"},
+    "details": {"type": "object", "additionalProperties": true}
+  },
+  "additionalProperties": false
+}

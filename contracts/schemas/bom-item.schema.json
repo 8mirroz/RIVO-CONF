@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rivo.example/schema/bom-item.schema.json",
+  "title": "BomItem",
+  "type": "object",
+  "required": ["article", "qty", "uom"],
+  "properties": {
+    "article": {"type": "string"},
+    "qty": {"type": "number"},
+    "uom": {"type": "string", "enum": ["pcs", "mm"]},
+    "comment": {"type": "string"}
+  },
+  "additionalProperties": false
+}

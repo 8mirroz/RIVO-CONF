@@ -3,15 +3,10 @@ info:
   title: RIVO Configurator API
   version: "1.0.0"
   description: "End-to-end API for RIVO Configurator, validating states, calculating CPQ, and generating DXF/IFC/Passport exports."
-  license:
-    name: MIT
 
 servers:
   - url: /api/v1
     description: Core API v1
-
-security:
-  - bearerAuth: []
 
 paths:
   /solutions/generate:
@@ -23,8 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              # Requires initial state/parameters
+              $ref: '#/components/schemas/ConfigurationSnapshot'
       responses:
         "200":
           description: "Returns the configuration snapshot."
@@ -189,124 +183,18 @@ paths:
                 $ref: '#/components/schemas/ErrorEnvelope'
 
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
   schemas:
     ConfigurationSnapshot:
-      type: object
-      description: "Internal transient configuration state, holding user selections, limits, and working sets."
-      required:
-        - stateId
-        - dimensions
-      properties:
-        stateId:
-          type: string
-          format: uuid
-        dimensions:
-          type: object
-          properties:
-            width:
-              type: number
-            height:
-              type: number
-            depth:
-              type: number
-        graph:
-          $ref: '#/components/schemas/StructureGraph'
-
+      $ref: './schemas/configuration-snapshot.schema.json'
     ValidationResultItem:
-      type: object
-      description: "Result of a single rule/constraint check."
-      required:
-        - ruleId
-        - status
-      properties:
-        ruleId:
-          type: string
-        status:
-          type: string
-          enum: [pass, warning, error]
-        message:
-          type: string
-
+      $ref: './schemas/validation-result-item.schema.json'
     BomItem:
-      type: object
-      description: "Item line inside the bill of materials."
-      required:
-        - article
-        - qty
-        - uom
-      properties:
-        article:
-          type: string
-        qty:
-          type: number
-        uom:
-          type: string
-        comment:
-          type: string
-
+      $ref: './schemas/bom-item.schema.json'
     PriceQuote:
-      type: object
-      required:
-        - quoteId
-        - currency
-        - totalPrice
-        - bom
-      properties:
-        quoteId:
-          type: string
-        currency:
-          type: string
-          default: "RUB"
-        totalPrice:
-          type: number
-        bom:
-          type: array
-          items:
-            $ref: '#/components/schemas/BomItem'
-
+      $ref: './schemas/price-quote.schema.json'
     StructureGraph:
-      type: object
-      description: "Node-based connection graph defining assembly."
-      required:
-        - rootNode
-        - edges
-      properties:
-        rootNode:
-          type: string
-        edges:
-          type: array
-          items:
-            type: object
-            required:
-              - from
-              - to
-            properties:
-              from:
-                type: string
-              to:
-                type: string
-              type:
-                type: string
-
+      $ref: './schemas/structure-graph.schema.json'
     ErrorEnvelope:
-      type: object
-      description: "Standard API Error Format"
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-
+      $ref: './schemas/error-envelope.schema.json'
     RivoExportConfig:
-      description: "Strict schema referencing `rivo-config.schema.json`"
       $ref: './schemas/rivo-config.schema.json'

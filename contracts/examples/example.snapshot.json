@@ -1,0 +1,7 @@
+{
+  "stateId": "3b1f7c77-3b0c-4d6f-9e2a-2c4dbf516f2f",
+  "dimensions": {"width": 1200, "height": 2500, "depth": 200},
+  "graph": {"rootNode": "root-1", "edges": [{"from": "root-1", "to": "child-1", "type": "inline"}]},
+  "bom": [{"article": "100001.1", "qty": 2000, "uom": "mm", "comment": "Profile length"}],
+  "versionTag": {"catalogVersion": "1.0.0", "rulesVersion": "1.0.0", "pricingVersion": "1.0.0", "assetsVersion": "1.0.0"}
+}

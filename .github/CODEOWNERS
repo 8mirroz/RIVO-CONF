@@ -1,0 +1,20 @@
+# Default owner
+* @8mirroz
+
+# Domain owners (replace with real GitHub usernames/teams if different)
+/contracts/ @8mirroz
+/models/catalog/ @8mirroz
+/models/attributes/ @8mirroz
+/models/versioning/ @8mirroz
+/models/rules/ @8mirroz
+/backend/engine/ @8mirroz
+/backend/validation/ @8mirroz
+/backend/api/ @8mirroz
+/backend/cpq/ @8mirroz
+/backend/bom/ @8mirroz
+/backend/export/ @8mirroz
+/frontend/ @8mirroz
+/viewer/ @8mirroz
+/governance/ @8mirroz
+/scripts/ @8mirroz
+/docs/ @8mirroz
