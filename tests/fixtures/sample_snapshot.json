@@ -1,0 +1,45 @@
+{
+  "selectedOptions": {
+    "profileType": "30x30",
+    "height": 2000,
+    "width": 1000,
+    "depth": 600,
+    "load": 150,
+    "mountingType": "floor"
+  },
+  "derivedValues": {
+    "totalWeight": 45.5,
+    "estimatedRigidity": "standard"
+  },
+  "structureGraph": {
+    "nodes": [
+      {"id": "n1", "type": "upright", "position": {"x": 0, "y": 0, "z": 0}},
+      {"id": "n2", "type": "upright", "position": {"x": 1000, "y": 0, "z": 0}},
+      {"id": "b1", "type": "beam", "span": ["n1", "n2"], "level": 1}
+    ],
+    "edges": [
+      {"from": "n1", "to": "b1"},
+      {"from": "n2", "to": "b1"}
+    ]
+  },
+  "calculatedPrice": {
+    "currency": "RUB",
+    "subtotal": 15000,
+    "taxes": 3000,
+    "total": 18000
+  },
+  "validationState": [
+    {
+      "ruleId": "R001",
+      "severity": "hard",
+      "passed": true,
+      "message": "Profile type compatible with load"
+    }
+  ],
+  "versionTag": {
+    "catalog": "v1.0.0",
+    "rules": "v1.0.0",
+    "pricing": "v1.0.0",
+    "assets": "v1.0.0"
+  }
+}
