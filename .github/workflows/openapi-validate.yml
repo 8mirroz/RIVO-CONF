@@ -1,7 +1,6 @@
 name: openapi-validate
 on:
   pull_request:
-  push:
 
 jobs:
   lint:
@@ -11,4 +10,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npx --yes @stoplight/spectral-cli lint contracts/openapi.v1.yaml
+      - run: npx --yes @stoplight/spectral-cli lint --ruleset .github/spectral.yaml --fail-severity error contracts/openapi.v1.yaml

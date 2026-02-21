@@ -1,7 +1,6 @@
 name: openapi-compat
 on:
   pull_request:
-  push:
 
 jobs:
   diff:

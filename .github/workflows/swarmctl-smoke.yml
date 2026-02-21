@@ -1,7 +1,6 @@
 name: swarmctl-smoke
 on:
   pull_request:
-  push:
 
 jobs:
   smoke:

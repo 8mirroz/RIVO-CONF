@@ -1,7 +1,6 @@
 name: contracts-validate
 on:
   pull_request:
-  push:
 
 jobs:
   validate:
