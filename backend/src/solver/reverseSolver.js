@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Reverse Solver — generates 2-3 valid configuration candidates.
+ * P1-04: Reverse solver on economic/balanced/reinforced profiles.
+ */
+
 const { randomUUID } = require('crypto');
 const { validateConfiguration, normalizeSnapshotLikeInput, buildValidationModel } = require('../validation');
 
