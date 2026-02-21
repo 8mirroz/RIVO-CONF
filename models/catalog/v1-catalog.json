@@ -1,0 +1,74 @@
+{
+    "version": "1.0.0",
+    "profiles": [
+        {
+            "id": "profile_30x30",
+            "geometry": "30x30",
+            "properties": {
+                "E": 210000,
+                "Ix": 40000,
+                "Wx": 3500
+            },
+            "maxLength": 6000,
+            "weightPerMeter": 1.5,
+            "costPerMeter": 12.0
+        },
+        {
+            "id": "profile_40x40",
+            "geometry": "40x40",
+            "properties": {
+                "E": 210000,
+                "Ix": 60000,
+                "Wx": 5000
+            },
+            "maxLength": 6000,
+            "weightPerMeter": 2.2,
+            "costPerMeter": 18.0
+        }
+    ],
+    "nodes": [
+        {
+            "id": "node_90deg_2way",
+            "compatibleProfiles": [
+                "profile_30x30",
+                "profile_40x40"
+            ],
+            "maxMoment": 1500,
+            "maxShear": 5000,
+            "angles": [
+                90
+            ]
+        },
+        {
+            "id": "node_90deg_3way",
+            "compatibleProfiles": [
+                "profile_40x40"
+            ],
+            "maxMoment": 2500,
+            "maxShear": 8000,
+            "angles": [
+                90,
+                90
+            ]
+        }
+    ],
+    "fasteners": [
+        {
+            "id": "fastener_m8",
+            "usageRules": [
+                "node_90deg_2way",
+                "node_90deg_3way"
+            ],
+            "cost": 0.5
+        },
+        {
+            "id": "fastener_wall_anchor",
+            "usageRules": [
+                "floor-wall",
+                "wall",
+                "ceiling"
+            ],
+            "cost": 2.5
+        }
+    ]
+}
