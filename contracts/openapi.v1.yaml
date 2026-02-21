@@ -345,8 +345,9 @@ paths:
     post:
       tags:
         - Exports
-      deprecated: true
       summary: Generate canonical .rivo.json (legacy alias).
+      description: Legacy endpoint for RIVO export. Use /export/rivo instead.
+      deprecated: true
       operationId: exportRivoLegacy
       requestBody:
         required: true

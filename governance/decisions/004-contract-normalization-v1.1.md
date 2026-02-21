@@ -48,3 +48,12 @@ The contract layer had three inconsistencies:
 2. Prefer `/export/*` over `/exports/*`.
 3. For BOM and PriceQuote payloads, emit canonical fields in new clients.
 4. Existing clients may continue using legacy fields during v1.x.
+
+## Implementation Status
+- OpenAPI v1.1 keeps legacy aliases marked `deprecated: true`.
+- JSON Schemas support canonical and legacy payload shapes during v1.x.
+- Contract examples are canonical and aligned with v1.1 fields.
+
+## Sunset Policy
+- v1.x: dual-format compatibility is maintained.
+- v2.0: legacy aliases and legacy fields (`article/uom`, `totalPrice/bom`, `/exports/*`) are removed.
